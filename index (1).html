@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kasoraro · caderno de pintura, roupas e obras interativas</title>
+  <!-- mostra a animação de abertura só na primeira visita de cada sessão -->
+  <script>
+    try { if (!sessionStorage.getItem('abertura-vista')) document.documentElement.classList.add('abrindo'); }
+    catch (e) { document.documentElement.classList.add('abrindo'); }
+  </script>
+  <link rel="stylesheet" href="estilo.css">
+  <script src="esboco.js" defer></script>
+</head>
+<body>
+
+  <header class="topo" data-esboco="linha">
+    <a href="index.html" class="marca" data-esboco="circulo">kasoraro</a>
+    <ul class="menu" data-esboco="escrita">
+      <li><a href="index.html" class="ativo" data-esboco="sublinhado">Portfólio</a></li>
+      <li><a href="loja.html" data-esboco="sublinhado" data-so-hover>Loja</a></li>
+      <li><a href="obras.html" data-esboco="sublinhado" data-so-hover>Interativas</a></li>
+    </ul>
+  </header>
+
+  <section class="abertura">
+    <h1 data-esboco="escrita">Pinturas, roupas<br>e <span class="marcado">obras que respondem</span><br>a quem olha.</h1>
+    <p data-esboco="escrita">Escreva aqui uma apresentação curta sobre você e o seu trabalho: o que você pinta, de onde vem, o que te move.</p>
+  </section>
+
+  <section class="secao">
+    <h2 data-esboco="sublinhado">Portfólio</h2>
+    <div class="grade">
+      <article class="peca" data-esboco="escrita">
+        <div class="imagem tela1"></div>
+        <h3>Título da obra</h3>
+        <p class="info">Acrílica sobre tela · 60 × 80 cm · 2026</p>
+      </article>
+      <article class="peca" data-esboco="escrita">
+        <div class="imagem tela2"></div>
+        <h3>Título da obra</h3>
+        <p class="info">Óleo sobre tela · 50 × 70 cm · 2025</p>
+      </article>
+      <article class="peca" data-esboco="escrita">
+        <div class="imagem tela3"></div>
+        <h3>Título da obra</h3>
+        <p class="info">Técnica mista · 40 × 50 cm · 2025</p>
+      </article>
+      <article class="peca" data-esboco="escrita">
+        <div class="imagem tela4"></div>
+        <h3>Título da obra</h3>
+        <p class="info">Acrílica sobre papel · 30 × 40 cm · 2024</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="rodape" data-esboco="regua">
+    <span>© 2026 kasoraro</span>
+    <span><a href="loja.html">Loja</a> · <a href="obras.html">Obras interativas</a></span>
+  </footer>
+
+</body>
+</html>
