@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vinicius “Kaso” Soares</title>
   <meta name="description" content="Kaso — confecção, arte digital e produção cultural. São Paulo.">
-  <link rel="stylesheet" href="estilo.css?v=8">
-  <script src="script.js?v=8" defer></script>
+  <!-- versão do ateliê: "?atelie=claro" no endereço mostra a versão clara -->
+  <script>
+    try { if (new URLSearchParams(location.search).get('atelie') === 'claro') document.documentElement.classList.add('atelie-claro'); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="estilo.css?v=9">
+  <link rel="stylesheet" href="atelie.css?v=9">
+  <script src="script.js?v=9" defer></script>
+  <script src="atelie.js?v=9" defer></script>
 </head>
 <body>
 
@@ -15,7 +21,7 @@
       <li><a href="#sobre" class="ativo">sobre</a></li>
       <li><a href="#destaques">destaques</a></li>
       <li><a href="#arte-digital">arte digital</a></li>
-      <li><a href="atelie.html">ateliê</a></li>
+      <li><a href="#atelie">ateliê</a></li>
       <li><a href="obras.html">interativas</a></li>
     </ul>
   </nav>
@@ -111,6 +117,67 @@
       <div class="trabalho"><div class="foto"><img src="img/arte-11.jpg" alt="Arte digital" loading="lazy"></div></div>
       <div class="trabalho"><div class="foto"><img src="img/arte-01.jpg" alt="Arte digital" loading="lazy"></div></div>
     </div>
+  </section>
+
+  <hr class="divisor so-claro">
+
+  <!-- Ateliê: o pintor passeia entre as obras -->
+  <section class="atelie" id="atelie">
+    <div class="cena" id="cena">
+      <div class="palco" id="palco">
+        <img class="camada so-escuro" src="img/atelie/fundo.jpg" alt="" style="left:0;top:0;width:1080px;height:566px">
+        <img class="camada so-claro" src="img/atelie/chao.png" alt="" style="left:0;top:433px">
+
+        <!-- ==========================================================
+             OBRAS EXPOSTAS
+             Para trocar uma obra: substitua o arquivo da imagem
+             (img/atelie/obra-1.jpg, obra-2.jpg) ou mude o "src" abaixo.
+             data-grande = versão em alta resolução que abre no clique.
+             data-titulo e data-info aparecem quando a obra abre.
+             ========================================================== -->
+        <div class="interativo" style="left:99px;top:94px;width:674px;height:365px"
+             data-alvo="560" data-titulo="eu" data-info="Kaso · técnica · ano"
+             data-grande="img/atelie/obra-1-grande.jpg">
+          <div class="obra" style="left:17px;top:15px;width:640px;height:335px">
+            <img src="img/atelie/obra-1.jpg" alt="Obra exposta no quadro grande">
+          </div>
+          <img class="moldura" src="img/atelie/moldura-1.png" alt="" style="left:0;top:0">
+        </div>
+
+        <div class="interativo" style="left:839px;top:95px;width:211px;height:211px"
+             data-alvo="945" data-titulo="Sem título" data-info="Acrílica sobre tela"
+             data-grande="img/quadro-branco.jpg">
+          <div class="obra na-sombra" style="left:6px;top:10px;width:199px;height:191px">
+            <img src="img/atelie/obra-2.jpg" alt="Obra exposta no quadro pequeno">
+          </div>
+          <img class="moldura" src="img/atelie/moldura-2.png" alt="" style="left:0;top:0">
+        </div>
+
+        <!-- marcas de tinta que o pintor deixa nas obras -->
+        <div class="rastros" id="rastros"></div>
+
+        <div class="interativo" style="left:684px;top:219px;width:168px;height:254px"
+             data-alvo="770" data-titulo="Desenho no papelão" data-info="Kaso · técnica · ano"
+             data-grande="img/atelie/papelao.png">
+          <img src="img/atelie/papelao.png" alt="Desenho no papelão" style="left:0;top:0">
+        </div>
+
+        <div class="pegadas" id="pegadas"></div>
+        <img class="camada sombra" id="sombra" src="img/atelie/sombra.png" alt="">
+        <!-- o pintor, montado em partes pra poder andar -->
+        <div class="boneco" id="boneco" aria-label="O pintor">
+          <img class="perna" id="perna-a" src="img/atelie/p-pernas.png" alt="">
+          <img class="perna" id="perna-b" src="img/atelie/p-pernas.png" alt="">
+          <img class="braco-e" id="braco-e" src="img/atelie/p-braco-e.png" alt="">
+          <img class="tronco" id="tronco" src="img/atelie/p-tronco.png" alt="">
+          <img class="braco-d" id="braco-d" src="img/atelie/p-braco-d.png" alt="">
+        </div>
+        <img class="camada luz so-escuro" id="luz" src="img/atelie/luz.png" alt="" style="left:93px;top:225px">
+      </div>
+      <div class="falas" id="falas"></div>
+      <div class="cursor" id="cursor"><span></span></div>
+    </div>
+    <p class="legenda-atelie">ateliê — clique no chão pra ele andar até lá, clique nas obras pra ver de perto, e tente chegar perto dele.</p>
   </section>
 
   <footer class="rodape">

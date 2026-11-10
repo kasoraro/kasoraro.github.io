@@ -17,7 +17,8 @@
   const boneco = $('boneco'), sombra = $('sombra'), luz = $('luz');
   const pernaA = $('perna-a'), pernaB = $('perna-b'), tronco = $('tronco');
   const bracoD = $('braco-d'), bracoE = $('braco-e');
-  const pegadas = $('pegadas'), rastros = $('rastros'), fala = $('fala'), cursor = $('cursor');
+  const pegadas = $('pegadas'), rastros = $('rastros'), falas = $('falas'), cursor = $('cursor');
+  const claro = document.documentElement.classList.contains('atelie-claro');
   const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- ajustes fáceis de mexer ---------- */
@@ -35,8 +36,27 @@
   const PASSADA = 2 * PERNA * Math.sin(rad(ABERTURA));   // distância de um passo
 
   /* ---------- escala do palco ---------- */
-  let k = 1;
-  function escalar() { k = cena.clientWidth / W; palco.style.transform = `scale(${k})`; }
+  // escura: cobre a tela inteira (corta as bordas se precisar, sempre mostrando o chão)
+  // clara: ocupa a largura da página, sem a parte preta de cima
+  let k = 1, ox = 0, oy = 0;
+  const H = 566, TOPO_CLARO = 85;
+  function escalar() {
+    const vw = cena.clientWidth;
+    if (claro) {
+      k = vw / W; ox = 0; oy = -TOPO_CLARO * k;
+      cena.style.height = ((H - TOPO_CLARO) * k) + 'px';
+    } else if (innerWidth / innerHeight < 1.2) {        // celular em pé
+      k = vw / W; ox = 0; oy = 60;
+      cena.style.height = (H * k + 60) + 'px';
+    } else {
+      cena.style.height = '';
+      const vh = cena.clientHeight;
+      k = Math.max(vw / W, vh / H);
+      ox = (vw - W * k) / 2;
+      oy = vh - H * k;                                  // chão sempre embaixo
+    }
+    palco.style.transform = `translate(${ox}px, ${oy}px) scale(${k})`;
+  }
   addEventListener('resize', escalar);
   escalar();
 
@@ -46,7 +66,7 @@
     fase: 0, abertura: 0,          // ciclo e amplitude atual do passo
     modo: 'parado', ate: performance.now() + 1200,
     alvo: null, aoChegar: null,
-    pulo: 0, aceno: 0, proxRastro: 0,
+    pulo: 0, aceno: 0, proxRastro: 0, foco: 0, emFoco: false,
   };
   const profundidade = (y) => 0.95 + (y - CHAO.yMin) / (CHAO.yMax - CHAO.yMin) * 0.08;
 
@@ -62,6 +82,8 @@
     const desce = PERNA * (1 - Math.cos(rad(ang)));
     const sobe = Math.abs(Math.sin(p.fase * 2)) * 1.5 * (p.abertura / ABERTURA);
     p.pulo *= 0.85;
+    p.foco += ((p.emFoco ? 1 : 0) - p.foco) * 0.15;
+    const zoom = 1 + p.foco * .05;
     const respira = p.modo === 'parado' ? Math.sin(t / 650) * 1.2 : 0;
     const dy = desce - sobe - p.pulo + respira;
 
@@ -81,7 +103,7 @@
     bracoE.style.transform = `rotate(${be + inclina}deg)`;
 
     boneco.style.transform =
-      `translate(${p.x - PES.x}px, ${p.y - PES.y + dy}px) scale(${s * dv}, ${s})`;
+      `translate(${p.x - PES.x}px, ${p.y - PES.y + dy}px) scale(${s * dv * zoom}, ${s * zoom})`;
     sombra.style.transform =
       `translate(${p.x + SOMBRA.dx - 547}px, ${p.y + SOMBRA.dy + dy * .6 - 186}px) scale(${s}) skewX(${-inclina * .6}deg)`;
   }
@@ -103,14 +125,14 @@
   }
 
   /* ---------- marcas de tinta na obra ---------- */
-  const obras = [...palco.querySelectorAll('.obra')];
+  const itens = [...palco.querySelectorAll('.interativo')];
+  const telas = [...palco.querySelectorAll('.obra')].map(o => ({
+    x: o.parentElement.offsetLeft + o.offsetLeft, y: o.parentElement.offsetTop + o.offsetTop, w: o.offsetWidth, h: o.offsetHeight,
+  }));
   function pingarTinta() {
     const s = profundidade(p.y);
     const px = p.x + p.dir * (165 - PES.x) * s, py = p.y - (PES.y - 20) * s;
-    const alvo = obras.find(o => {
-      const x = o.offsetLeft, y = o.offsetTop;
-      return px > x && px < x + o.offsetWidth && py > y && py < y + o.offsetHeight;
-    });
+    const alvo = telas.find(o => px > o.x && px < o.x + o.w && py > o.y && py < o.y + o.h);
     if (!alvo) return;
     const img = document.createElement('img');
     img.src = Math.random() < .5 ? 'img/atelie/rastro-1.png' : 'img/atelie/rastro-2.png';
@@ -143,15 +165,17 @@
   function parar(ms) { p.modo = 'parado'; p.ate = performance.now() + ms; }
 
   /* ---------- fala ---------- */
-  let tempoFala;
+  // a palavra nasce na altura da cabeça, sobe devagar e some
   function falar(texto) {
-    fala.textContent = texto;
+    const el = document.createElement('span');
+    el.className = 'palavra';
+    el.textContent = texto;
     const s = profundidade(p.y);
-    fala.style.left = (p.x * k) + 'px';
-    fala.style.top = ((p.y - PES.y * s * .97) * k) + 'px';
-    fala.classList.add('visivel');
-    clearTimeout(tempoFala);
-    tempoFala = setTimeout(() => fala.classList.remove('visivel'), 1900);
+    el.style.left = (ox + p.x * k) + 'px';
+    el.style.top = (oy + (p.y - PES.y * s * .98) * k) + 'px';
+    el.style.setProperty('--balanco', ((Math.random() - .5) * 40) + 'px');
+    falas.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
   }
   const frase = () => FRASES[Math.floor(Math.random() * FRASES.length)];
 
@@ -206,17 +230,19 @@
     const s = profundidade(p.y);
     return Math.abs(m.x - p.x) < 55 * s && m.y > p.y - PES.y * s && m.y < p.y + 12;
   };
-  const obraEm = (m) => obras.find(o => m.x > o.offsetLeft && m.x < o.offsetLeft + o.offsetWidth &&
-                                       m.y > o.offsetTop && m.y < o.offsetTop + o.offsetHeight);
+  const obraEm = (m) => itens.find(o => m.x > o.offsetLeft && m.x < o.offsetLeft + o.offsetWidth &&
+                                        m.y > o.offsetTop && m.y < o.offsetTop + o.offsetHeight);
 
-  let ultimaOlhada = 0;
+  let ultimaOlhada = -1e9;
+  cena.addEventListener('pointerleave', () => { p.emFoco = false; });
   cena.addEventListener('pointermove', (e) => {
     const m = noPalco(e);
     // cursor
     const r = cena.getBoundingClientRect();
     cursor.style.left = (e.clientX - r.left) + 'px';
     cursor.style.top = (e.clientY - r.top) + 'px';
-    const texto = emCimaDele(m) ? 'oi' : obraEm(m) ? 'ver' : m.y > CHAO.yMin - 30 ? 'ir' : '';
+    p.emFoco = emCimaDele(m);
+    const texto = p.emFoco ? 'oi' : obraEm(m) ? 'ver' : m.y > CHAO.yMin - 30 ? 'ir' : '';
     cursor.firstElementChild.textContent = texto;
     cursor.classList.toggle('com-texto', !!texto);
 
@@ -277,10 +303,13 @@
   }
   function aplicar(el, r) { Object.assign(el.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); }
 
+  const imagemDe = (item) => item.querySelector('.obra img') || item.querySelector('img');
+  const caixaDe = (item) => (item.querySelector('.obra') || imagemDe(item)).getBoundingClientRect();
   function abrirObra(obra) {
     obraAberta = obra;
-    const pequena = obra.querySelector('img');
-    const ini = obra.getBoundingClientRect();
+    const pequena = imagemDe(obra);
+    const ini = caixaDe(obra);
+    imgZoom.classList.toggle('recorte', !obra.querySelector('.obra'));
     imgZoom.src = pequena.src;                         // começa com a imagem que já está carregada
     aplicar(imgZoom, ini);
     imgZoom.style.transition = 'none';
@@ -311,9 +340,9 @@
 
   function fecharObra() {
     if (!obraAberta) return;
-    const fim = obraAberta.getBoundingClientRect();
+    const fim = caixaDe(obraAberta);
     aplicar(imgZoom, fim);
-    imgZoom.style.filter = getComputedStyle(obraAberta.querySelector('img')).filter;
+    imgZoom.style.filter = getComputedStyle(imagemDe(obraAberta)).filter;
     fundoZoom.classList.remove('aberto');
     textoZoom.classList.remove('aberto');
     fecharZoom.classList.remove('aberto');

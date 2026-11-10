@@ -1,15 +1,32 @@
 /* ===== Ateliê: cena montada a partir das camadas do Photoshop ===== */
+/* versão escura (padrão): ocupa a tela inteira, de ponta a ponta */
+.atelie { position: relative; margin-top: 60px; }
 .cena {
   position: relative;
-  width: min(100%, calc((100vh - 170px) * 1080 / 566));
-  margin: 0 auto;
-  aspect-ratio: 1080 / 566;
+  width: 100%;
+  height: 100vh;
   overflow: hidden;
-  border-radius: 6px;
   background: #000;
   user-select: none;
   -webkit-user-select: none;
 }
+/* emendas suaves com o branco da página, em cima e embaixo */
+.cena::before, .cena::after {
+  content: '';
+  position: absolute; left: 0; right: 0; z-index: 2;
+  height: 110px;
+  pointer-events: none;
+}
+.cena::before { top: 0; background: linear-gradient(#fff, rgba(255, 255, 255, 0)); }
+.cena::after { bottom: 0; height: 70px; background: linear-gradient(rgba(255, 255, 255, 0), #fff); }
+
+/* versão clara: sem parede, só o chão e as peças recortadas no branco do site */
+.atelie-claro .atelie { max-width: 1400px; margin: 0 auto; padding: 30px 24px 0; }
+.atelie-claro .cena { height: auto; background: none; overflow: visible; }
+.atelie-claro .cena::before, .atelie-claro .cena::after { display: none; }
+.atelie-claro .so-escuro { display: none; }
+html:not(.atelie-claro) .so-claro { display: none; }
+
 @media (pointer: fine) { .cena, .cena * { cursor: none !important; } }
 
 /* o palco tem o tamanho original do PSD (1080 × 566) e é escalado pra caber */
@@ -21,6 +38,15 @@
   transform-origin: 0 0;
 }
 .palco img { position: absolute; display: block; max-width: none; pointer-events: none; -webkit-user-drag: none; }
+
+/* ----- peças interativas: crescem um pouco quando o mouse passa ----- */
+.interativo {
+  position: absolute;
+  transform-origin: 50% 60%;
+  transition: transform .4s cubic-bezier(.2, .8, .2, 1), filter .4s;
+}
+.interativo:hover { transform: scale(1.035); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .35)); }
+.interativo .moldura { left: 0; top: 0; }
 
 /* ----- obras nos quadros ----- */
 .obra { position: absolute; overflow: hidden; }
@@ -48,8 +74,11 @@
   pointer-events: none;
 }
 /* obra fora da luz do projetor: mais escura e dessaturada, como o resto da parede */
-.obra.na-sombra img { filter: grayscale(.6) sepia(.18) brightness(.5) contrast(.88); }
-.obra.na-sombra::after { background: radial-gradient(ellipse at 30% 40%, rgba(0,0,0,.1) 20%, rgba(0, 0, 0, .65) 100%); }
+html:not(.atelie-claro) .obra.na-sombra img { filter: grayscale(.6) sepia(.18) brightness(.5) contrast(.88); }
+html:not(.atelie-claro) .obra.na-sombra::after { background: radial-gradient(ellipse at 30% 40%, rgba(0,0,0,.1) 20%, rgba(0, 0, 0, .65) 100%); }
+/* na versão clara as obras ficam com luz de dia, sem o escurecido do canto */
+.atelie-claro .obra::after { opacity: .35; }
+.atelie-claro .obra.na-sombra img { filter: grayscale(.25) sepia(.08) brightness(.9); }
 
 /* marcas de tinta que o pintor deixa nas obras */
 .rastros { position: absolute; inset: 0; pointer-events: none; }
@@ -74,6 +103,7 @@
 .boneco .braco-e { transform-origin: 80px 74px; }                    /* ombro esquerdo */
 .boneco .perna { opacity: .82; }
 .boneco.sumindo { opacity: 0; }
+.atelie-claro .boneco { filter: none; }
 .sombra { mix-blend-mode: darken; transform-origin: 50% 100%; transition: opacity .45s; }
 
 /* pegadas: multiplicam o chão e somem devagar */
@@ -81,25 +111,25 @@
 .pegadas img { mix-blend-mode: multiply; transform-origin: 50% 50%; animation: pegada 6s ease-in forwards; }
 @keyframes pegada { 0% { opacity: .8; } 50% { opacity: .45; } 100% { opacity: 0; } }
 
-/* ----- balão de fala, em vidro ----- */
-.fala {
+/* ----- falas: a palavra sobe devagar e vai sumindo ----- */
+.falas { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.palavra {
   position: absolute;
-  z-index: 3;
-  padding: 6px 12px;
-  border-radius: 14px;
-  font-size: 12px;
-  color: #111;
-  background: rgba(255, 255, 255, .55);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, .7);
+  font-size: 13px;
+  letter-spacing: .03em;
+  color: rgba(255, 255, 255, .92);
+  text-shadow: 0 0 10px rgba(255, 255, 255, .35);
   white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -100%) translateY(6px);
-  transition: opacity .25s, transform .25s;
+  transform: translate(-50%, 0);
+  animation: palavra-sobe 3s cubic-bezier(.25, .6, .3, 1) forwards;
 }
-.fala.visivel { opacity: 1; transform: translate(-50%, -100%); }
+.atelie-claro .palavra { color: #111; text-shadow: none; }
+@keyframes palavra-sobe {
+  0%   { opacity: 0; transform: translate(-50%, 8px); filter: blur(3px); }
+  15%  { opacity: 1; transform: translate(calc(-50% + var(--balanco, 0px) * .3), -8px); filter: blur(0); }
+  60%  { opacity: .75; transform: translate(calc(-50% - var(--balanco, 0px) * .4), -40px); filter: blur(0); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--balanco, 0px)), -80px); filter: blur(4px); letter-spacing: .12em; }
+}
 
 /* ----- cursor da cena: um anel de vidro que muda conforme o que está embaixo ----- */
 .cursor {
@@ -128,11 +158,17 @@
   white-space: nowrap;
 }
 .cena:hover .cursor { opacity: 1; }
+.atelie-claro .cursor { border-color: rgba(0, 0, 0, .7); background: rgba(255, 255, 255, .35); }
+.atelie-claro .cursor span { color: #111; }
 .cursor.com-texto { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: rgba(255, 255, 255, .18); }
 .cursor.com-texto span { opacity: 1; }
 @media (pointer: coarse) { .cursor { display: none; } }
 
-.legenda-atelie { text-align: center; margin-top: 10px; font-size: 11px; color: var(--cinza); }
+.legenda-atelie {
+  text-align: center; margin-top: 4px;
+  font-size: 11px; color: var(--cinza);
+}
+.atelie-claro .legenda-atelie { position: static; color: var(--cinza); text-align: center; margin-top: 10px; }
 
 /* ----- obra em tela cheia (abre com zoom a partir do quadro) ----- */
 .zoom-fundo {
@@ -150,6 +186,7 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
   cursor: zoom-out;
 }
+.zoom-img.recorte { object-fit: contain; box-shadow: none; }
 .zoom-texto {
   position: fixed; z-index: 61;
   left: 0; right: 0;
