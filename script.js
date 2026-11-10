@@ -62,6 +62,16 @@
   if (document.fonts) document.fonts.ready.then(() => marcar(ativo(), false));
 })();
 
+/* ---------- Divisórias: desenham a linha ao entrar na tela ---------- */
+(() => {
+  const divisores = document.querySelectorAll('.divisor');
+  if (!divisores.length) return;
+  const obs = new IntersectionObserver(entradas => entradas.forEach(e => {
+    e.target.classList.toggle('visivel', e.isIntersecting);
+  }), { rootMargin: '0px 0px -15% 0px' });
+  divisores.forEach(d => obs.observe(d));
+})();
+
 /* ---------- 2. Visualizador ---------- */
 (() => {
   const itens = [...document.querySelectorAll('[data-galeria] .trabalho:not(.produto)')];
