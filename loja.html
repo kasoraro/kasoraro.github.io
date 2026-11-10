@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja · kasoraro</title>
+  <link rel="stylesheet" href="estilo.css">
+  <script src="esboco.js" defer></script>
+</head>
+<body>
+
+  <header class="topo" data-esboco="linha">
+    <a href="index.html" class="marca" data-esboco="circulo">kasoraro</a>
+    <ul class="menu">
+      <li><a href="index.html" data-esboco="sublinhado" data-so-hover>Portfólio</a></li>
+      <li><a href="loja.html" class="ativo" data-esboco="sublinhado">Loja</a></li>
+      <li><a href="obras.html" data-esboco="sublinhado" data-so-hover>Interativas</a></li>
+    </ul>
+  </header>
+
+  <section class="secao">
+    <h2 data-esboco="sublinhado">Loja</h2>
+
+    <div class="filtros">
+      <button class="botao ativo" data-filtro="todos" data-esboco="caixa">Tudo</button>
+      <button class="botao" data-filtro="quadro" data-esboco="caixa">Quadros</button>
+      <button class="botao" data-filtro="roupa" data-esboco="caixa">Roupas</button>
+    </div>
+
+    <div class="grade">
+      <article class="peca" data-tipo="quadro">
+        <div class="imagem tela1"></div>
+        <h3>Título do quadro</h3>
+        <p class="info">Original · peça única · 60 × 80 cm</p>
+        <p class="preco">R$ 0,00</p>
+        <button class="botao" disabled data-esboco="caixa">Em breve</button>
+      </article>
+      <article class="peca" data-tipo="quadro">
+        <div class="imagem tela3"></div>
+        <h3>Título do quadro</h3>
+        <p class="info">Original · peça única · 40 × 50 cm</p>
+        <p class="preco">R$ 0,00</p>
+        <button class="botao" disabled data-esboco="caixa">Em breve</button>
+      </article>
+      <article class="peca" data-tipo="roupa">
+        <div class="imagem roupa1"></div>
+        <h3>Nome da peça</h3>
+        <p class="info">Camiseta pintada à mão · P M G</p>
+        <p class="preco">R$ 0,00</p>
+        <button class="botao" disabled data-esboco="caixa">Em breve</button>
+      </article>
+      <article class="peca" data-tipo="roupa">
+        <div class="imagem roupa2"></div>
+        <h3>Nome da peça</h3>
+        <p class="info">Moletom · P M G GG</p>
+        <p class="preco">R$ 0,00</p>
+        <button class="botao" disabled data-esboco="caixa">Em breve</button>
+      </article>
+    </div>
+  </section>
+
+  <footer class="rodape" data-esboco="regua">
+    <span>© 2026 kasoraro</span>
+    <span>Pagamento pelo Mercado Pago (em breve)</span>
+  </footer>
+
+  <script>
+    // Filtro simples: mostra só quadros, só roupas ou tudo
+    const botoes = document.querySelectorAll('.filtros button');
+    const pecas = document.querySelectorAll('.peca');
+    botoes.forEach(botao => {
+      botao.addEventListener('click', () => {
+        botoes.forEach(b => b.classList.remove('ativo'));
+        botao.classList.add('ativo');
+        const filtro = botao.dataset.filtro;
+        pecas.forEach(p => {
+          p.style.display = (filtro === 'todos' || p.dataset.tipo === filtro) ? '' : 'none';
+        });
+        if (window.redesenharEsboco) window.redesenharEsboco(); // traços acompanham o novo layout
+      });
+    });
+  </script>
+
+</body>
+</html>
