@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vinicius “Kaso” Soares</title>
   <meta name="description" content="Kaso — confecção, arte digital e produção cultural. São Paulo.">
-  <!-- versão do ateliê: "?atelie=claro" no endereço mostra a versão clara -->
-  <script>
-    try { if (new URLSearchParams(location.search).get('atelie') === 'claro') document.documentElement.classList.add('atelie-claro'); } catch (e) {}
-  </script>
-  <link rel="stylesheet" href="estilo.css?v=10">
-  <link rel="stylesheet" href="atelie.css?v=10">
-  <script src="script.js?v=10" defer></script>
-  <script src="atelie.js?v=10" defer></script>
+  <link rel="stylesheet" href="estilo.css?v=11">
+  <link rel="stylesheet" href="atelie.css?v=11">
+  <script src="script.js?v=11" defer></script>
+  <script src="atelie.js?v=11" defer></script>
 </head>
 <body>
 
@@ -21,7 +17,6 @@
       <li><a href="#sobre" class="ativo">sobre</a></li>
       <li><a href="#destaques">destaques</a></li>
       <li><a href="#arte-digital">arte digital</a></li>
-      <li><a href="#atelie">ateliê</a></li>
       <li><a href="obras.html">interativas</a></li>
     </ul>
   </nav>
@@ -98,73 +93,114 @@
 
   <hr class="divisor">
 
-  <!-- Arte digital -->
-  <section class="secao" id="arte-digital">
-    <div class="grade-arte" data-galeria>
-      <div class="trabalho"><div class="foto"><img src="img/arte-fear.jpg" alt="fear" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-09.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-02.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-10.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-04.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-07.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-05.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-13.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-03.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-12.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-06.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-14.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-08.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-11.jpg" alt="Arte digital" loading="lazy"></div></div>
-      <div class="trabalho"><div class="foto"><img src="img/arte-01.jpg" alt="Arte digital" loading="lazy"></div></div>
+  <!-- =====================================================================
+       ARTE DIGITAL — parede de galeria com o pintor, a escada e o interruptor
+       Medidas em pixels do PSD (largura 1080). O chão do PSD começa em 1258px.
+       Para trocar uma obra: mude o "src" da imagem (e o data-grande).
+       Para trocar a moldura: mude o nome em --m (ouro, ouro-velho, nogueira,
+       carvalho, preta, branca, prata, laca) e a espessura em --t.
+       ===================================================================== -->
+  <section class="atelie" id="arte-digital">
+    <div class="trilho-interruptor">
+      <button class="interruptor" id="interruptor" aria-label="Alternar entre tema claro e escuro" aria-pressed="false">
+        <span class="tecla"></span>
+      </button>
     </div>
-  </section>
 
-  <hr class="divisor so-claro">
-
-  <!-- Ateliê: o pintor passeia entre as obras -->
-  <section class="atelie" id="atelie">
     <div class="cena" id="cena">
-      <div class="palco" id="palco">
-        <img class="camada so-escuro" src="img/atelie/fundo.jpg" alt="" style="left:0;top:0;width:1080px;height:566px">
-        <img class="camada so-claro" src="img/atelie/chao.png" alt="" style="left:0;top:433px">
+      <div class="palco" id="palco" style="height:1824px">
+        <div class="parede" style="top:1574px"></div>
+        <img class="camada" src="img/atelie/chao.png" alt="" style="left:0;top:1691px">
 
-        <!-- ==========================================================
-             OBRAS EXPOSTAS
-             Para trocar uma obra: substitua o arquivo da imagem
-             (img/atelie/obra-1.jpg, obra-2.jpg) ou mude o "src" abaixo.
-             data-grande = versão em alta resolução que abre no clique.
-             data-titulo e data-info aparecem quando a obra abre.
-             ========================================================== -->
-        <div class="interativo" style="left:99px;top:94px;width:674px;height:365px"
-             data-alvo="560" data-titulo="eu" data-info="Kaso · técnica · ano"
-             data-grande="img/atelie/obra-1-grande.jpg">
+        <!-- obras de arte digital, em molduras variadas -->
+        <div class="interativo quadro" style="left:27px;top:424px;width:290px;height:290px;--m:url('img/molduras/ouro.png');--t:22px;--pp:0px"
+             data-titulo="fear" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-fear.jpg">
+          <img src="img/arte-fear.jpg" alt="fear" loading="lazy">
+        </div>
+        <div class="interativo quadro passe" style="left:27px;top:732px;width:290px;height:290px;--m:url('img/molduras/preta.png');--t:12px;--pp:14px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-08.jpg">
+          <img src="img/arte-08.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:27px;top:1040px;width:290px;height:290px;--m:url('img/molduras/nogueira.png');--t:20px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-13.jpg">
+          <img src="img/arte-13.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:339px;top:395px;width:210px;height:256px;--m:url('img/molduras/branca.png');--t:14px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-02.jpg">
+          <img src="img/arte-02.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:339px;top:669px;width:210px;height:210px;--m:url('img/molduras/laca.png');--t:16px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-07.jpg">
+          <img src="img/arte-07.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:339px;top:897px;width:210px;height:210px;--m:url('img/molduras/prata.png');--t:16px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-04.jpg">
+          <img src="img/arte-04.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:339px;top:1125px;width:210px;height:205px;--m:url('img/molduras/ouro-velho.png');--t:18px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-10.jpg">
+          <img src="img/arte-10.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:571px;top:210px;width:250px;height:250px;--m:url('img/molduras/carvalho.png');--t:18px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-09.jpg">
+          <img src="img/arte-09.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro passe" style="left:571px;top:478px;width:250px;height:316px;--m:url('img/molduras/preta.png');--t:10px;--pp:16px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-01.jpg">
+          <img src="img/arte-01.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:571px;top:812px;width:250px;height:250px;--m:url('img/molduras/ouro-velho.png');--t:22px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-05.jpg">
+          <img src="img/arte-05.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro passe" style="left:571px;top:1080px;width:250px;height:250px;--m:url('img/molduras/branca.png');--t:14px;--pp:10px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-12.jpg">
+          <img src="img/arte-12.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:843px;top:441px;width:210px;height:210px;--m:url('img/molduras/nogueira.png');--t:16px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-03.jpg">
+          <img src="img/arte-03.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:843px;top:669px;width:210px;height:210px;--m:url('img/molduras/ouro.png');--t:18px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-11.jpg">
+          <img src="img/arte-11.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro passe" style="left:843px;top:897px;width:210px;height:210px;--m:url('img/molduras/preta.png');--t:12px;--pp:12px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-06.jpg">
+          <img src="img/arte-06.jpg" alt="Arte digital" loading="lazy">
+        </div>
+        <div class="interativo quadro" style="left:843px;top:1125px;width:210px;height:205px;--m:url('img/molduras/laca.png');--t:14px;--pp:0px"
+             data-titulo="Arte digital" data-info="Projeto Autoral (2020 — presente)" data-grande="img/arte-14.jpg">
+          <img src="img/arte-14.jpg" alt="Arte digital" loading="lazy">
+        </div>
+
+        <!-- quadros originais do PSD, perto do chão -->
+        <div class="interativo" style="left:99px;top:1352px;width:674px;height:365px"
+             data-titulo="eu" data-info="Kaso · técnica · ano" data-grande="img/atelie/obra-1-grande.jpg">
           <div class="obra" style="left:17px;top:15px;width:640px;height:335px">
             <img src="img/atelie/obra-1.jpg" alt="Obra exposta no quadro grande">
           </div>
-          <img class="moldura" src="img/atelie/moldura-1.png" alt="" style="left:0;top:0">
+          <img class="moldura" src="img/atelie/moldura-1.png" alt="">
         </div>
-
-        <div class="interativo" style="left:839px;top:95px;width:211px;height:211px"
-             data-alvo="945" data-titulo="Sem título" data-info="Acrílica sobre tela"
-             data-grande="img/quadro-branco.jpg">
-          <div class="obra na-sombra" style="left:6px;top:10px;width:199px;height:191px">
+        <div class="interativo" style="left:839px;top:1353px;width:211px;height:211px"
+             data-titulo="Sem título" data-info="Acrílica sobre tela" data-grande="img/quadro-branco.jpg">
+          <div class="obra" style="left:6px;top:10px;width:199px;height:191px">
             <img src="img/atelie/obra-2.jpg" alt="Obra exposta no quadro pequeno">
           </div>
-          <img class="moldura" src="img/atelie/moldura-2.png" alt="" style="left:0;top:0">
+          <img class="moldura" src="img/atelie/moldura-2.png" alt="">
         </div>
 
-        <!-- marcas de tinta que o pintor deixa nas obras -->
         <div class="rastros" id="rastros"></div>
 
-        <div class="interativo" style="left:684px;top:219px;width:168px;height:254px"
-             data-alvo="770" data-titulo="Desenho no papelão" data-info="Kaso · técnica · ano"
-             data-grande="img/atelie/papelao.png">
-          <img src="img/atelie/papelao.png" alt="Desenho no papelão" style="left:0;top:0">
+        <div class="interativo" style="left:684px;top:1477px;width:168px;height:254px"
+             data-titulo="Desenho no papelão" data-info="Kaso · técnica · ano" data-grande="img/atelie/papelao.png">
+          <img src="img/atelie/papelao.png" alt="Desenho no papelão">
         </div>
 
         <div class="pegadas" id="pegadas"></div>
-        <img class="camada sombra" id="sombra" src="img/atelie/sombra.png" alt="">
-        <!-- o pintor, montado em partes pra poder andar -->
+        <img class="sombra" id="sombra" src="img/atelie/sombra.png" alt="">
+        <div class="escada" id="escada"></div>
+        <!-- o pintor, montado em partes pra poder andar, subir e sentar -->
         <div class="boneco" id="boneco" aria-label="O pintor">
           <img class="perna" id="perna-a" src="img/atelie/p-pernas.png" alt="">
           <img class="perna" id="perna-b" src="img/atelie/p-pernas.png" alt="">
@@ -172,16 +208,14 @@
           <img class="tronco" id="tronco" src="img/atelie/p-tronco.png" alt="">
           <img class="braco-d" id="braco-d" src="img/atelie/p-braco-d.png" alt="">
         </div>
-        <!-- banquinho e projetor ficam na frente dos quadros, como no PSD -->
-        <img class="camada" src="img/atelie/projetor.png" alt="" style="left:0;top:433px">
-        <!-- luz do projetor: névoa azulada em "tela", com poeira flutuando -->
-        <img class="camada luz" id="luz" src="img/atelie/luz.jpg" alt="" style="left:59px;top:199px">
-        <div class="poeira" id="poeira"></div>
+        <img class="camada" src="img/atelie/projetor.png" alt="" style="left:0;top:1691px">
+        <img class="camada luz" id="luz" src="img/atelie/luz.jpg" alt="" style="left:59px;top:1457px">
+        <div class="poeira" id="poeira" style="left:110px;top:1498px"></div>
+        <div class="emojis" id="emojis"></div>
       </div>
-      <div class="falas" id="falas"></div>
       <div class="cursor" id="cursor"><span></span></div>
     </div>
-    <p class="legenda-atelie">ateliê — clique no chão pra ele andar até lá, clique nas obras pra ver de perto, e tente chegar perto dele.</p>
+    <p class="legenda-atelie">clique numa obra pra ver de perto · na parede pra ele levar a escada e subir até lá · no chão pra ele andar · o interruptor troca a luz</p>
   </section>
 
   <footer class="rodape">
