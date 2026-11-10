@@ -3,60 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>kasoraro · caderno de pintura, roupas e obras interativas</title>
-  <!-- mostra a animação de abertura só na primeira visita de cada sessão -->
-  <script>
-    try { if (!sessionStorage.getItem('abertura-vista')) document.documentElement.classList.add('abrindo'); }
-    catch (e) { document.documentElement.classList.add('abrindo'); }
-  </script>
+  <title>Vinicius “Kaso” Soares</title>
+  <meta name="description" content="Kaso — confecção, arte digital e produção cultural. São Paulo.">
   <link rel="stylesheet" href="estilo.css">
-  <script src="esboco.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
 
-  <header class="topo" data-esboco="linha">
-    <a href="index.html" class="marca" data-esboco="circulo">kasoraro</a>
-    <ul class="menu" data-esboco="escrita">
-      <li><a href="index.html" class="ativo" data-esboco="sublinhado">Portfólio</a></li>
-      <li><a href="loja.html" data-esboco="sublinhado" data-so-hover>Loja</a></li>
-      <li><a href="obras.html" data-esboco="sublinhado" data-so-hover>Interativas</a></li>
+  <header class="topo">
+    <a href="index.html" class="nome"><b>Vinicius “Kaso” Soares</b></a>
+    <ul class="abas">
+      <li><a href="index.html" class="ativo">sobre</a></li>
+      <li><a href="#destaques">destaques</a></li>
+      <li><a href="#arte-digital">arte digital</a></li>
+      <li><a href="loja.html">loja</a></li>
+      <li><a href="obras.html">interativas</a></li>
     </ul>
   </header>
 
-  <section class="abertura">
-    <h1 data-esboco="escrita">Pinturas, roupas<br>e <span class="marcado">obras que respondem</span><br>a quem olha.</h1>
-    <p data-esboco="escrita">Escreva aqui uma apresentação curta sobre você e o seu trabalho: o que você pinta, de onde vem, o que te move.</p>
+  <!-- Abertura: a obra reage ao mouse -->
+  <section class="capa">
+    <div class="obra"><img src="img/arte-fear.jpg" alt="Arte digital simétrica em magenta, violeta e azul"></div>
+    <h1 class="espacado acido">kaso</h1>
+    <div class="legenda"><span>confecção · arte digital · produção cultural</span><span>São Paulo</span></div>
   </section>
 
-  <section class="secao">
-    <h2 data-esboco="sublinhado">Portfólio</h2>
-    <div class="grade">
-      <article class="peca" data-esboco="escrita">
-        <div class="imagem tela1"></div>
-        <h3>Título da obra</h3>
-        <p class="info">Acrílica sobre tela · 60 × 80 cm · 2026</p>
+  <!-- Sobre -->
+  <section class="secao" id="sobre">
+    <div class="secao-titulo"><h2>sobre</h2><span>01</span></div>
+    <div class="sobre">
+      <figure>
+        <img src="img/retrato.jpg" alt="Retrato de Kaso">
+        <figcaption>Foto por Lucas Cavallini · Texto por Julia Emiko</figcaption>
+      </figure>
+      <div>
+        <h3>Vinicius “Kaso” Soares</h3>
+        <p>Kaso, 24, cresceu em Sapopemba, zona leste de São Paulo. Teve acesso cedo às referências da internet e à estética do cloud rap (2010–2016), algo que abriu um campo criativo, mas que em certo ponto também o deslocou em relação ao lugar onde vivia.</p>
+        <p>Nos processos de experimentação com costura, pintura e silkagem, encontrou uma forma de aproximar a fisicalidade do que absorveu digitalmente, distante da sua realidade imediata.</p>
+        <p>Kaso cria roupas para personagens imaginados por ele. Figuras que saem do imaginário e se manifestam nas pessoas que vestem suas peças. Essa rede traduz como funciona o movimento independente de designers underground que existe em São Paulo.</p>
+        <p>Membro do coletivo criativo Rebu Digital, onde desenvolve sua visão e se inspira nos que estão ao seu lado.</p>
+        <div class="refs">
+          <span class="etiqueta">Hood By Air</span>
+          <span class="etiqueta">Asspizza</span>
+          <span class="etiqueta">Kentucky Boy Tyler</span>
+          <span class="etiqueta">Rebu Digital</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destaques -->
+  <section class="secao" id="destaques">
+    <div class="secao-titulo"><h2>destaques</h2><span>02</span></div>
+    <div class="grade" data-galeria>
+      <article class="trabalho">
+        <div class="foto"><img src="img/mad.jpg" alt="Modelo vestindo camiseta Mad Enlatados x Kaso" loading="lazy"></div>
+        <h3>Mad Enlatados x Kaso</h3><p>Coleção, campanha e pop-up colaborativa</p>
       </article>
-      <article class="peca" data-esboco="escrita">
-        <div class="imagem tela2"></div>
-        <h3>Título da obra</h3>
-        <p class="info">Óleo sobre tela · 50 × 70 cm · 2025</p>
+      <article class="trabalho">
+        <div class="foto"><img src="img/lovecore.jpg" alt="Obras em tecido penduradas na Lovecore 6" loading="lazy"></div>
+        <h3>Lovecore 6</h3><p>Direção criativa, curadoria, expografia e produção executiva</p>
       </article>
-      <article class="peca" data-esboco="escrita">
-        <div class="imagem tela3"></div>
-        <h3>Título da obra</h3>
-        <p class="info">Técnica mista · 40 × 50 cm · 2025</p>
+      <article class="trabalho">
+        <div class="foto"><img src="img/matue.jpg" alt="Chapéu aviador dupla face com patch X" loading="lazy"></div>
+        <h3>Matuê — Xtranho</h3><p>Confecção de chapéu aviador dupla face com patch “X”</p>
       </article>
-      <article class="peca" data-esboco="escrita">
-        <div class="imagem tela4"></div>
-        <h3>Título da obra</h3>
-        <p class="info">Acrílica sobre papel · 30 × 40 cm · 2024</p>
+      <article class="trabalho">
+        <div class="foto"><img src="img/mochakk.jpg" alt="Calça tingida e camisa envernizada" loading="lazy"></div>
+        <h3>Mochakk para Casa Bola e Aberto Art</h3><p>Confecção de calça com tingimento e camisa envernizada</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/dudda.jpg" alt="Camiseta com recortes e chapéu com orelhas" loading="lazy"></div>
+        <h3>Dudda Beat ft Tz da Coronel — Nossa Chance</h3><p>Confecção de camiseta com recortes e chapéu com orelhas</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/rider.jpg" alt="Calça de retalhos para Rider x SneakersBR" loading="lazy"></div>
+        <h3>Rider x SneakersBR</h3><p>Confecção de calça com retalhos</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/madmag.jpg" alt="Páginas da Mad Magazine Vol. 1" loading="lazy"></div>
+        <h3>Mad Magazine Vol. 1</h3><p>Design gráfico para revista impressa</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/seeker.jpg" alt="Capas da Seeker Magazine" loading="lazy"></div>
+        <h3>Seeker Magazine (ARG)</h3><p>Arte digital selecionada para revista impressa</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/autoral.jpg" alt="Projeto autoral com luvas de esqueleto" loading="lazy"></div>
+        <h3>Projeto Autoral</h3><p>Direção criativa, produção executiva e styling</p>
+      </article>
+      <article class="trabalho">
+        <div class="foto"><img src="img/pendr6gon.jpg" alt="Styling para Pendr6gon" loading="lazy"></div>
+        <h3>Pendr6gon</h3><p>Styling</p>
       </article>
     </div>
   </section>
 
-  <footer class="rodape" data-esboco="regua">
-    <span>© 2026 kasoraro</span>
-    <span><a href="loja.html">Loja</a> · <a href="obras.html">Obras interativas</a></span>
+  <!-- Arte digital -->
+  <section class="secao" id="arte-digital">
+    <div class="secao-titulo"><h2>arte digital</h2><span>Projeto Autoral (2020 — presente)</span></div>
+    <div class="grade-arte" data-galeria>
+      <div class="trabalho"><div class="foto"><img src="img/arte-fear.jpg" alt="fear" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-09.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-02.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-10.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-04.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-07.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-05.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-13.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-03.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-12.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-06.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-14.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-08.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-11.jpg" alt="Arte digital" loading="lazy"></div></div>
+      <div class="trabalho"><div class="foto"><img src="img/arte-01.jpg" alt="Arte digital" loading="lazy"></div></div>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <div><span class="mini-rlkt">R.L.K.T</span><br>Vinicius “Kaso” Soares · São Paulo</div>
+    <div><a href="loja.html">loja</a> · <a href="obras.html">interativas</a> · @seuinstagram</div>
   </footer>
 
 </body>

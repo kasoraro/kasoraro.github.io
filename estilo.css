@@ -1,200 +1,239 @@
-/* ===== Caderno de esboços: estilo geral do site ===== */
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap');
+/* =========================================================
+   kaso · RLKT2222 — estilo geral
+   Base: fundo branco, Helvetica pequena (como no portfólio),
+   barra de abas cinza e as cores da arte "fear".
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
 :root {
-  --papel: #f7f4ec;
-  --grafite: #2e2d2b;
-  --suave: #6d6a63;
-  --pauta: rgba(110, 145, 190, .22);
-  --margem: rgba(205, 85, 70, .4);
-  --marca-texto: rgba(255, 226, 92, .55);
-  --fita: rgba(236, 222, 170, .7);
+  --branco: #ffffff;
+  --preto: #111111;
+  --cinza: #8a8a8a;
+  --cinza-claro: #e6e6e6;
+  --magenta: #ff2a9d;
+  --violeta: #5a22e0;
+  --azul: #2b3cff;
+  --gelo: #c9f4ff;
+  --acido: #e4f20b;
+  --pesada: 'Arial Black', 'Archivo Black', 'Helvetica Neue', Arial, sans-serif;
+  --texto: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
+html { scroll-behavior: smooth; }
 body {
-  min-height: 100vh;
-  color: var(--grafite);
-  font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
-  font-size: 1.15rem;
-  line-height: 32px;               /* o texto "senta" nas linhas do caderno */
-  background-color: var(--papel);
-  background-image:
-    linear-gradient(90deg, transparent 0 calc(3vw + 18px), var(--margem) calc(3vw + 18px) calc(3vw + 20px), transparent calc(3vw + 20px)),
-    repeating-linear-gradient(180deg, transparent 0 31px, var(--pauta) 31px 32px);
-  position: relative;
+  background: var(--branco);
+  color: var(--preto);
+  font-family: var(--texto);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
-
 a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
 
-/* ----- Cabeçalho ----- */
+/* ----- Barra de abas (igual ao topo do portfólio) ----- */
 .topo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 0 6vw;
-  padding: 2.6rem 0 1.2rem;
+  align-items: stretch;
+  margin: 0 12px;
+  background: var(--cinza-claro);
+  border-radius: 0 0 14px 14px;
+  font-size: 12px;
 }
-.marca {
-  font-family: 'Caveat', cursive;
-  font-size: 2.2rem;
-  font-weight: 700;
-  line-height: 1;
+.topo .nome { padding: 6px 16px; color: #555; white-space: nowrap; }
+.topo .nome b { color: var(--preto); }
+.abas { display: flex; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.abas::-webkit-scrollbar { display: none; }
+.abas a {
+  display: block;
+  padding: 6px 16px;
+  color: #444;
+  white-space: nowrap;
+  border-radius: 0 0 12px 12px;
+  transition: background .2s, color .2s;
 }
-.menu { display: flex; gap: 2.2rem; list-style: none; }
-.menu a { font-size: 1.25rem; color: var(--suave); display: inline-block; }
-.menu a:hover, .menu a.ativo { color: var(--grafite); }
+.abas a:hover { color: var(--preto); background: #d6d6d6; }
+.abas a.ativo { background: var(--cinza); color: var(--branco); }
 
-/* ----- Abertura ----- */
-.abertura { padding: 7vh 6vw 4vh; max-width: 1100px; }
-.abertura h1 {
-  font-family: 'Caveat', cursive;
-  font-weight: 600;
-  font-size: clamp(2.8rem, 7.5vw, 6rem);
+/* ----- Títulos no estilo "f e a r" ----- */
+.espacado {
+  font-family: var(--pesada);
+  text-transform: lowercase;
+  letter-spacing: .9em;
   line-height: 1;
-  display: inline-block;
 }
-.abertura h1 .marcado {
-  background: linear-gradient(transparent 55%, var(--marca-texto) 55% 90%, transparent 90%);
+.acido {
+  color: var(--acido);
+  text-shadow: 0 0 1px #7d8a00, 6px 10px 14px rgba(40, 40, 60, .55);
 }
-.abertura p { margin-top: 1.6rem; max-width: 36rem; color: var(--suave); }
+
+/* ----- Abertura com a obra "fear" ----- */
+.capa {
+  position: relative;
+  min-height: calc(100vh - 30px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  perspective: 900px;
+}
+.capa .obra {
+  width: min(78vh, 88vw);
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transition: transform .25s ease-out, filter .25s ease-out;
+  will-change: transform;
+}
+.capa .obra img { width: 100%; height: 100%; object-fit: cover; }
+.capa h1 {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(3rem, 11vw, 9rem);
+  white-space: nowrap;
+  pointer-events: none;
+  padding-left: .9em;             /* compensa o espaçamento da última letra */
+  transition: letter-spacing .3s ease-out;
+}
+.capa .legenda {
+  position: absolute;
+  bottom: 18px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--cinza);
+}
 
 /* ----- Seções ----- */
-.secao { padding: 3vh 6vw 8vh; }
-.secao h2 {
-  font-family: 'Caveat', cursive;
-  font-weight: 600;
-  font-size: 2.6rem;
-  line-height: 1.1;
-  margin-bottom: 2.6rem;
+.secao { padding: 90px 24px 40px; max-width: 1400px; margin: 0 auto; }
+.secao-titulo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--preto);
+  padding-bottom: 8px;
+  margin-bottom: 28px;
+}
+.secao-titulo h2 { font-family: var(--pesada); font-size: 15px; letter-spacing: .5em; text-transform: lowercase; }
+.secao-titulo span { font-size: 11px; color: var(--cinza); }
+
+/* ----- Sobre ----- */
+.sobre { display: grid; grid-template-columns: minmax(220px, 360px) 1fr; gap: 40px; align-items: start; }
+.sobre figure img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.sobre figcaption, .credito { font-size: 10px; color: var(--cinza); margin-top: 6px; }
+.sobre h3 { font-size: 20px; margin-bottom: 18px; }
+.sobre p { max-width: 560px; margin-bottom: 12px; }
+.sobre .refs { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 6px; }
+.etiqueta {
   display: inline-block;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: var(--cinza-claro);
 }
 
-/* ----- Grade de obras / produtos ----- */
-.grade {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 3.5rem 2.8rem;
+/* ----- Grade de trabalhos ----- */
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 34px 18px; }
+.trabalho { cursor: pointer; }
+.trabalho .foto { overflow: hidden; background: #f3f3f3; aspect-ratio: 4 / 5; }
+.trabalho .foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease, filter .3s; }
+.trabalho:hover .foto img {
+  transform: scale(1.04);
+  filter: drop-shadow(5px 0 0 var(--magenta)) drop-shadow(-5px 0 0 var(--azul));
 }
-.peca:nth-child(odd)  { transform: rotate(-1.2deg); }
-.peca:nth-child(even) { transform: rotate(1deg); }
+.trabalho h3 { font-size: 13px; font-weight: 700; margin-top: 10px; }
+.trabalho p { font-size: 11px; font-style: italic; color: #555; }
 
-.peca .imagem {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  background-size: cover;
-  background-position: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+/* arte digital: quadrados, sem texto */
+.grade-arte { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; }
+.grade-arte .trabalho .foto { aspect-ratio: 1; background: none; }
+
+/* ----- Loja ----- */
+.marca-rlkt { position: relative; display: inline-block; padding: 18px 26px; margin-bottom: 18px; }
+.marca-rlkt b { font-family: var(--pesada); font-size: clamp(2.6rem, 8vw, 6rem); letter-spacing: -.02em; line-height: 1; }
+.marca-rlkt i { position: absolute; font-style: normal; font-weight: 700; font-size: 14px; }
+.marca-rlkt i:nth-of-type(1) { top: 0; left: 0; }
+.marca-rlkt i:nth-of-type(2) { top: 0; right: 0; }
+.marca-rlkt i:nth-of-type(3) { bottom: 0; left: 0; }
+.marca-rlkt i:nth-of-type(4) { bottom: 0; right: 0; }
+.manifesto { max-width: 520px; color: #444; margin-bottom: 40px; }
+
+.filtros { display: inline-flex; background: var(--cinza-claro); border-radius: 14px; padding: 3px; margin-bottom: 30px; }
+.filtros button {
+  border: none; background: none; font: inherit; font-size: 12px;
+  padding: 5px 16px; border-radius: 12px; cursor: pointer; color: #444;
 }
-/* pedacinho de fita adesiva segurando a "foto" */
-.peca .imagem::before {
-  content: '';
-  position: absolute;
-  top: -12px; left: 50%;
-  width: 84px; height: 24px;
-  transform: translateX(-50%) rotate(-4deg);
-  background: var(--fita);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
-}
-.peca h3 { font-family: 'Caveat', cursive; font-size: 1.7rem; font-weight: 600; margin-top: 1rem; line-height: 1.2; display: inline-block; }
-.peca .info { color: var(--suave); font-size: 1.05rem; }
-.peca .preco { font-size: 1.2rem; }
+.filtros button.ativo { background: var(--cinza); color: var(--branco); }
 
-/* "Pinturas" provisórias até você trocar pelas fotos reais */
-.tela1 { background: radial-gradient(circle at 30% 40%, #e8a33d, transparent 55%), linear-gradient(160deg, #2e4a62, #c4472d); }
-.tela2 { background: radial-gradient(circle at 70% 30%, #f1d9a7, transparent 50%), linear-gradient(200deg, #3d5a40, #1d1b18); }
-.tela3 { background: radial-gradient(circle at 50% 70%, #c4472d, transparent 45%), linear-gradient(120deg, #f1d9a7, #6b8fa3); }
-.tela4 { background: radial-gradient(circle at 40% 30%, #6b8fa3, transparent 50%), linear-gradient(180deg, #e8a33d, #5a2e2e); }
-.roupa1 { background: linear-gradient(135deg, #d9d0c1, #b8a990); }
-.roupa2 { background: linear-gradient(135deg, #2e4a62, #1d1b18); }
-
-/* ----- Botões (a borda é desenhada pelo esboco.js) ----- */
+.produto .foto { aspect-ratio: 3 / 4; background: #fff; }
+.produto .foto img { object-fit: contain; }
+.produto .linha { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; }
+.produto h3 { margin-top: 0; }
+.produto .preco { font-size: 13px; font-weight: 700; white-space: nowrap; }
 .botao {
-  display: inline-block;
-  margin-top: .9rem;
-  padding: .1rem 1.1rem;
-  border: none;
-  background: transparent;
-  color: var(--grafite);
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid var(--preto);
+  background: var(--branco);
   font: inherit;
+  font-size: 12px;
+  padding: 7px;
   cursor: pointer;
+  border-radius: 20px;
+  transition: background .2s, color .2s;
 }
-.botao:hover { background: var(--marca-texto); }
-.botao[disabled] { color: var(--suave); cursor: not-allowed; }
-.botao[disabled]:hover { background: transparent; }
+.botao:hover { background: var(--preto); color: var(--branco); }
+.botao[disabled] { border-color: var(--cinza-claro); color: var(--cinza); cursor: not-allowed; }
+.botao[disabled]:hover { background: var(--branco); color: var(--cinza); }
 
-.filtros { display: flex; gap: 1.6rem; margin-bottom: 2.8rem; flex-wrap: wrap; }
-.filtros .botao { margin-top: 0; }
-.filtros .botao.ativo { background: var(--marca-texto); }
+/* ----- Visualizador (clique numa imagem) ----- */
+.visor {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(255, 255, 255, .96);
+  display: none;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 14px;
+  padding: 50px 60px;
+}
+.visor.aberto { display: flex; }
+.visor img { max-height: 80vh; max-width: 100%; object-fit: contain; }
+.visor .texto { font-size: 12px; text-align: center; }
+.visor .texto b { display: block; }
+.visor button {
+  position: absolute; border: none; background: none; cursor: pointer;
+  font-family: var(--pesada); font-size: 22px; color: var(--preto); padding: 10px;
+}
+.visor .fechar { top: 12px; right: 18px; }
+.visor .anterior { left: 10px; top: 50%; }
+.visor .proximo { right: 10px; top: 50%; }
 
 /* ----- Rodapé ----- */
 .rodape {
-  margin: 0 6vw;
-  padding: 2.4rem 0 3rem;
-  color: var(--suave);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin: 80px 12px 0;
+  padding: 20px 16px 26px;
+  background: var(--cinza-claro);
+  border-radius: 14px 14px 0 0;
+  display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 14px;
+  font-size: 11px; color: #555;
 }
-
-/* ===== Camada dos traços a lápis ===== */
-.camada-esboco {
-  position: absolute;
-  top: 0; left: 0;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 5;
-}
-.traco {
-  fill: none;
-  stroke: var(--grafite);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: .85;
-  transition: opacity .2s;
-}
-.traco-escrita { stroke: none; }          /* caminho invisível do lápis */
-.traco-sublinhado { stroke-width: 2.2; }
-.traco-circulo { stroke-width: 2; }
-
-/* ----- O homenzinho ----- */
-.homem path, .homem line {
-  fill: none;
-  stroke: var(--grafite);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 1 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset .7s ease-out;
-}
-.homem .h-olho { stroke-width: 3; }
-.homem .h-lapis { stroke: #d9a93a; stroke-width: 5; }
-.homem .h-ponta { stroke: var(--grafite); stroke-width: 3; }
-.homem.visivel path, .homem.visivel line { stroke-dashoffset: 0; }
-
-/* ----- Enquanto a abertura acontece ----- */
-.abrindo body { overflow: hidden; }
-.abrindo [data-esboco]:not([data-esboco="linha"]):not([data-esboco="regua"]):not([data-so-hover]):not(.revelado) { opacity: 0; }
-[data-esboco] { transition: opacity .5s ease; }
-
-.pular {
-  position: fixed;
-  right: 1.6rem; bottom: 1.4rem;
-  z-index: 10;
-  font-family: 'Caveat', cursive;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: var(--suave);
-  cursor: pointer;
-}
-.pular:hover { color: var(--grafite); }
+.rodape .mini-rlkt { font-family: var(--pesada); font-size: 22px; color: var(--preto); }
 
 /* ----- Celular ----- */
-@media (max-width: 640px) {
-  .topo { flex-direction: column; gap: .8rem; }
-  .menu { gap: 1.4rem; }
+@media (max-width: 700px) {
+  .topo { margin: 0; border-radius: 0 0 12px 12px; }
+  .topo .nome { display: none; }
+  .sobre { grid-template-columns: 1fr; }
+  .capa h1 { letter-spacing: .6em; padding-left: .6em; }
+  .secao { padding-top: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .capa .obra, .capa h1 { transition: none; }
 }

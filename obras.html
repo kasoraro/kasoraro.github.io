@@ -3,99 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obras interativas · kasoraro</title>
+  <title>Obras interativas · kaso</title>
   <link rel="stylesheet" href="estilo.css">
-  <script src="esboco.js" defer></script>
+  <script src="script.js" defer></script>
   <style>
-    .obra { margin: 0 6vw 1.5rem; }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 68vh;
-      cursor: crosshair;
+    .palco {
+      position: relative;
+      width: min(100%, 78vh);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      background: #fff;
+      outline: 1px solid var(--cinza-claro);
       touch-action: none;
+      cursor: crosshair;
     }
-    .legenda { color: var(--suave); margin: 0 6vw 6vh; display: inline-block; }
+    .palco canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .controles {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+      margin: 18px auto 6px;
+    }
+    .controles input {
+      font: inherit; font-size: 12px; padding: 6px 14px; width: 190px;
+      border: 1px solid var(--cinza-claro); border-radius: 20px; outline: none;
+    }
+    .controles input:focus { border-color: var(--preto); }
+    .controles .botao { width: auto; margin: 0; padding: 6px 16px; }
+    .dica { text-align: center; font-size: 11px; color: var(--cinza); }
   </style>
 </head>
 <body>
 
-  <header class="topo" data-esboco="linha">
-    <a href="index.html" class="marca" data-esboco="circulo">kasoraro</a>
-    <ul class="menu">
-      <li><a href="index.html" data-esboco="sublinhado" data-so-hover>Portfólio</a></li>
-      <li><a href="loja.html" data-esboco="sublinhado" data-so-hover>Loja</a></li>
-      <li><a href="obras.html" class="ativo" data-esboco="sublinhado">Interativas</a></li>
+  <header class="topo">
+    <a href="index.html" class="nome"><b>Vinicius “Kaso” Soares</b></a>
+    <ul class="abas">
+      <li><a href="index.html">sobre</a></li>
+      <li><a href="index.html#destaques">destaques</a></li>
+      <li><a href="index.html#arte-digital">arte digital</a></li>
+      <li><a href="loja.html">loja</a></li>
+      <li><a href="obras.html" class="ativo">interativas</a></li>
     </ul>
   </header>
 
-  <section class="secao" style="padding-bottom: 2vh;">
-    <h2 data-esboco="sublinhado">Obra interativa nº 1 — <em>Pincelada</em></h2>
+  <section class="secao">
+    <div class="secao-titulo"><h2>espelho</h2><span>obra interativa nº 1</span></div>
+
+    <div class="palco" id="palco">
+      <canvas id="sombra"></canvas>
+      <canvas id="tinta"></canvas>
+      <canvas id="letras"></canvas>
+    </div>
+
+    <div class="controles">
+      <input id="palavra" maxlength="8" placeholder="escreva uma palavra" aria-label="Palavra">
+      <button class="botao" id="simetria">simetria: 2</button>
+      <button class="botao" id="limpar">limpar</button>
+      <button class="botao" id="baixar">baixar imagem</button>
+    </div>
+    <p class="dica">Arraste sobre o quadro para desenhar. Tudo que você faz de um lado aparece espelhado do outro.</p>
   </section>
 
-  <div class="obra" data-esboco="caixa">
-    <canvas id="tela"></canvas>
-  </div>
-  <p class="legenda">Passe o mouse (ou o dedo) sobre a tela para pintar. Clique para trocar de paleta. Toque duas vezes para limpar.</p>
-
-  <footer class="rodape" data-esboco="regua">
-    <span>© 2026 kasoraro</span>
-    <span>Mais obras em breve</span>
+  <footer class="rodape">
+    <div><span class="mini-rlkt">R.L.K.T</span><br>Vinicius “Kaso” Soares · São Paulo</div>
+    <div><a href="index.html">sobre</a> · <a href="loja.html">loja</a> · @seuinstagram</div>
   </footer>
 
   <script>
-    // ===== Obra interativa: pinceladas que seguem o movimento =====
-    const tela = document.getElementById('tela');
-    const ctx = tela.getContext('2d');
+    /* ===== Espelho: desenho simétrico com estilhaços ===== */
+    const palco = document.getElementById('palco');
+    const cSombra = document.getElementById('sombra');
+    const cTinta = document.getElementById('tinta');
+    const cLetras = document.getElementById('letras');
+    const sombra = cSombra.getContext('2d');
+    const tinta = cTinta.getContext('2d');
+    const letras = cLetras.getContext('2d');
+    const campoPalavra = document.getElementById('palavra');
+    const botaoSimetria = document.getElementById('simetria');
 
-    const paletas = [
-      ['#c4472d', '#e8a33d', '#2e4a62', '#f1d9a7'],
-      ['#3d5a40', '#6b8fa3', '#1d1b18', '#d9d0c1'],
-      ['#5a2e2e', '#e8a33d', '#6b8fa3', '#2e2d2b'],
-    ];
-    let paletaAtual = 0;
+    const cores = ['#ff2a9d', '#ff2a9d', '#5a22e0', '#2b3cff', '#c9f4ff', '#ffffff', '#9b3cff'];
+    const contorno = '#2a0a5e';
+    let L = 0;            // lado do quadro em pixels
+    let eixos = 2;        // 2 = espelho esquerda/direita · 4 = também cima/baixo
     let anterior = null;
+    let desenhando = false;
 
-    function ajustarTamanho() {
-      const escala = window.devicePixelRatio || 1;
-      tela.width = tela.clientWidth * escala;
-      tela.height = tela.clientHeight * escala;
-      ctx.scale(escala, escala); // o fundo fica transparente: dá pra ver as linhas do caderno
+    function preparar() {
+      const r = palco.getBoundingClientRect();
+      const esc = window.devicePixelRatio || 1;
+      L = r.width;
+      [cSombra, cTinta, cLetras].forEach(c => {
+        c.width = L * esc; c.height = L * esc;
+        c.getContext('2d').setTransform(esc, 0, 0, esc, 0, 0);
+      });
+      sombra.filter = 'blur(14px)';
+      escreverPalavra();
     }
 
-    function pintar(x, y) {
-      if (!anterior) { anterior = { x, y }; return; }
-      const velocidade = Math.hypot(x - anterior.x, y - anterior.y);
-      const cores = paletas[paletaAtual];
+    // um caco pontudo apontando na direção do movimento
+    function caco(ctx, x, y, ang, comp, larg, cor, linha) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(ang);
+      ctx.beginPath();
+      ctx.moveTo(comp, 0);
+      ctx.lineTo(-comp * .3, larg);
+      ctx.lineTo(-comp * .1, 0);
+      ctx.lineTo(-comp * .3, -larg);
+      ctx.closePath();
+      ctx.fillStyle = cor;
+      ctx.fill();
+      if (linha) { ctx.strokeStyle = contorno; ctx.lineWidth = 1; ctx.stroke(); }
+      ctx.restore();
+    }
 
-      // Várias "cerdas" levemente deslocadas dão textura de pincel
-      for (let i = 0; i < 6; i++) {
-        const desvio = (Math.random() - .5) * 14;
-        ctx.strokeStyle = cores[Math.floor(Math.random() * cores.length)];
-        ctx.globalAlpha = .15 + Math.random() * .25;
-        ctx.lineWidth = Math.max(2, 22 - velocidade * .4) * Math.random();
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(anterior.x + desvio, anterior.y + desvio);
-        ctx.lineTo(x + desvio, y + desvio);
-        ctx.stroke();
+    // estrela de pontas finas, como as da obra "fear"
+    function estrela(ctx, x, y, raio, cor, linha) {
+      const pontas = 4 + Math.floor(Math.random() * 3);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(Math.random() * Math.PI);
+      ctx.beginPath();
+      for (let i = 0; i < pontas * 2; i++) {
+        const r = i % 2 === 0 ? raio : raio * .22;
+        const a = (i / (pontas * 2)) * Math.PI * 2;
+        ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
       }
-      ctx.globalAlpha = 1;
+      ctx.closePath();
+      ctx.fillStyle = cor;
+      ctx.fill();
+      if (linha) { ctx.strokeStyle = '#2b3cff'; ctx.lineWidth = 1.2; ctx.stroke(); }
+      ctx.restore();
+    }
+
+    // desenha a mesma forma em todos os pontos espelhados
+    function espelhar(desenho, x, y, ang) {
+      const pontos = [[x, y, ang], [L - x, y, Math.PI - ang]];
+      if (eixos === 4) pontos.push([x, L - y, -ang], [L - x, L - y, Math.PI + ang]);
+      pontos.forEach(([px, py, pa]) => {
+        desenho(sombra, px + 12, py + 16, pa, 'rgba(70,70,90,.28)', false);
+        desenho(tinta, px, py, pa, null, true);
+      });
+    }
+
+    function pincelar(x, y) {
+      if (!anterior) { anterior = { x, y }; return; }
+      const dx = x - anterior.x, dy = y - anterior.y;
+      const vel = Math.hypot(dx, dy);
+      if (vel < 3) return;
+      const ang = Math.atan2(dy, dx);
+      const n = 1 + Math.floor(Math.random() * 2);
+      for (let i = 0; i < n; i++) {
+        const cor = cores[Math.floor(Math.random() * cores.length)];
+        const comp = 18 + vel * (1 + Math.random() * 1.8);
+        const larg = 3 + Math.random() * 9;
+        const desvio = (Math.random() - .5) * .9;
+        espelhar((ctx, px, py, pa, corSombra, linha) =>
+          caco(ctx, px, py, pa + desvio, comp, larg, corSombra || cor, linha), x, y, ang);
+      }
+      if (Math.random() < .07) {
+        const raio = 14 + Math.random() * 26;
+        espelhar((ctx, px, py, pa, corSombra, linha) =>
+          estrela(ctx, px, py, raio, corSombra || '#ffffff', linha), x, y, ang);
+      }
       anterior = { x, y };
     }
 
+    // palavra espaçada em amarelo, como "f e a r"
+    function escreverPalavra() {
+      letras.clearRect(0, 0, L, L);
+      const p = campoPalavra.value.trim().toLowerCase();
+      if (!p) return;
+      const tam = L * .13;
+      letras.font = `900 ${tam}px "Arial Black", "Archivo Black", sans-serif`;
+      letras.textBaseline = 'middle';
+      const passo = (L * .9) / p.length;
+      [...p].forEach((ch, i) => {
+        const x = L * .05 + passo * (i + .5);
+        letras.textAlign = 'center';
+        letras.save();
+        letras.shadowColor = 'rgba(40,40,60,.55)';
+        letras.shadowBlur = tam * .25;
+        letras.shadowOffsetX = tam * .08;
+        letras.shadowOffsetY = tam * .12;
+        letras.fillStyle = '#e4f20b';
+        letras.fillText(ch, x, L * .33);
+        letras.restore();
+      });
+    }
+
     function posicao(e) {
-      const r = tela.getBoundingClientRect();
+      const r = palco.getBoundingClientRect();
       return { x: e.clientX - r.left, y: e.clientY - r.top };
     }
 
-    tela.addEventListener('pointermove', e => { const p = posicao(e); pintar(p.x, p.y); });
-    tela.addEventListener('pointerleave', () => anterior = null);
-    tela.addEventListener('click', () => paletaAtual = (paletaAtual + 1) % paletas.length);
-    tela.addEventListener('dblclick', ajustarTamanho);
-    window.addEventListener('resize', ajustarTamanho);
+    palco.addEventListener('pointerdown', e => {
+      desenhando = true; anterior = posicao(e);
+      palco.setPointerCapture(e.pointerId);
+    });
+    palco.addEventListener('pointermove', e => { if (desenhando) { const p = posicao(e); pincelar(p.x, p.y); } });
+    ['pointerup', 'pointercancel'].forEach(ev => palco.addEventListener(ev, () => { desenhando = false; anterior = null; }));
 
-    ajustarTamanho();
+    campoPalavra.addEventListener('input', escreverPalavra);
+    botaoSimetria.addEventListener('click', () => {
+      eixos = eixos === 2 ? 4 : 2;
+      botaoSimetria.textContent = 'simetria: ' + eixos;
+    });
+    document.getElementById('limpar').addEventListener('click', () => {
+      sombra.clearRect(0, 0, L, L); tinta.clearRect(0, 0, L, L);
+    });
+    document.getElementById('baixar').addEventListener('click', () => {
+      const final = document.createElement('canvas');
+      final.width = cTinta.width; final.height = cTinta.height;
+      const f = final.getContext('2d');
+      f.fillStyle = '#fff'; f.fillRect(0, 0, final.width, final.height);
+      [cSombra, cTinta, cLetras].forEach(c => f.drawImage(c, 0, 0));
+      const link = document.createElement('a');
+      link.download = 'espelho-kaso.png';
+      link.href = final.toDataURL('image/png');
+      link.click();
+    });
+
+    let tempo;
+    addEventListener('resize', () => { clearTimeout(tempo); tempo = setTimeout(preparar, 200); });
+    preparar();
+    // quando a fonte pesada terminar de carregar, redesenha a palavra
+    if (document.fonts) document.fonts.load('900 40px "Archivo Black"').then(escreverPalavra).catch(() => {});
   </script>
 
 </body>
