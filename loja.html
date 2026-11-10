@@ -4,20 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loja · R.L.K.T 2222</title>
-  <link rel="stylesheet" href="estilo.css?v=4">
-  <script src="script.js?v=4" defer></script>
+  <link rel="stylesheet" href="estilo.css?v=5">
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
 
   <nav class="topo" aria-label="Menu">
-    <ul class="abas">
-      <li><a href="index.html#sobre">sobre</a></li>
-      <li><a href="index.html#destaques">destaques</a></li>
-      <li><a href="index.html#arte-digital">arte digital</a></li>
-      <li><a href="loja.html" class="ativo">loja</a></li>
-      <li><a href="obras.html">interativas</a></li>
+    <ul class="abas" data-menu="loja">
+      <li><a href="#tudo" class="ativo">tudo</a></li>
+      <li><a href="#roupas">roupas</a></li>
+      <li><a href="#acessorios">acessórios</a></li>
+      <li><a href="#quadros">quadros</a></li>
     </ul>
   </nav>
+
+  <!-- botão que alterna entre portfólio e loja -->
+  <a class="modo" href="index.html" data-modo="loja" aria-label="Alternar entre portfólio e loja">
+    <span class="pino"></span><span>portfólio</span><span>loja</span>
+  </a>
 
   <section class="secao">
     <div class="marca-rlkt" aria-label="R.L.K.T 2222">
@@ -25,88 +29,82 @@
     </div>
     <p class="manifesto">RLKT2222 é uma marca imaginária, uma marca falsa de arquivo, como as roupas que aparecem em sonhos. Ela só existe porque eu existo. Um drop por mês, peças sob encomenda com produção local.</p>
 
-    <div class="filtros">
-      <button class="ativo" data-filtro="tudo">tudo</button>
-      <button data-filtro="roupa">roupas</button>
-      <button data-filtro="acessorio">acessórios</button>
-      <button data-filtro="quadro">quadros</button>
-    </div>
 
     <!-- Para cada produto: troque o nome, a descrição e o preço -->
     <div class="grade">
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-mad-laranja.jpg" alt="Camiseta laranja Mad Enlatados" loading="lazy"></div>
         <div class="linha"><h3>Camiseta Mad Enlatados — laranja</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso · silk</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-listrada.jpg" alt="Camiseta listrada preta e branca" loading="lazy"></div>
         <div class="linha"><h3>Camiseta listrada</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-mad-rosto.jpg" alt="Camiseta preta com estampa de rosto" loading="lazy"></div>
         <div class="linha"><h3>Camiseta Mad Enlatados — rosto</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso · silk</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-mad-branca.jpg" alt="Camiseta branca com logo repetido" loading="lazy"></div>
         <div class="linha"><h3>Camiseta Mad Enlatados — branca</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso · silk</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-pb.jpg" alt="Camiseta metade preta metade branca" loading="lazy"></div>
         <div class="linha"><h3>Camiseta preto e branco</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-mad-preta.jpg" alt="Camiseta preta Mad Enlatados" loading="lazy"></div>
         <div class="linha"><h3>Camiseta Mad Enlatados — preta</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/camiseta-rosto-branca.jpg" alt="Camiseta branca com estampa de rosto" loading="lazy"></div>
         <div class="linha"><h3>Camiseta rosto — branca</h3><span class="preco">R$ —</span></div>
         <p>Mad Enlatados x Kaso · silk</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="roupa">
+      <article class="trabalho produto" data-tipo="roupas">
         <div class="foto"><img src="img/calca-tingida.jpg" alt="Calça com tingimento" loading="lazy"></div>
         <div class="linha"><h3>Calça tingida</h3><span class="preco">R$ —</span></div>
         <p>Peça única · tingimento à mão</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="acessorio">
+      <article class="trabalho produto" data-tipo="acessorios">
         <div class="foto"><img src="img/gorro.jpg" alt="Gorro de bobo da corte vermelho e preto" loading="lazy"></div>
         <div class="linha"><h3>Gorro jester</h3><span class="preco">R$ —</span></div>
         <p>Sob encomenda</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="acessorio">
+      <article class="trabalho produto" data-tipo="acessorios">
         <div class="foto"><img src="img/bolsa.jpg" alt="Bolsa magenta" loading="lazy"></div>
         <div class="linha"><h3>Bolsa</h3><span class="preco">R$ —</span></div>
         <p>Peça única</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="quadro">
+      <article class="trabalho produto" data-tipo="quadros">
         <div class="foto"><img src="img/quadro-branco.jpg" alt="Pintura de personagem branco com asas" loading="lazy"></div>
         <div class="linha"><h3>Sem título</h3><span class="preco">R$ —</span></div>
         <p>Acrílica sobre tela · medidas</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="quadro">
+      <article class="trabalho produto" data-tipo="quadros">
         <div class="foto"><img src="img/quadro-amarelo.jpg" alt="Pintura de personagem amarelo com asas" loading="lazy"></div>
         <div class="linha"><h3>Sem título</h3><span class="preco">R$ —</span></div>
         <p>Acrílica sobre tela · 100 cm</p>
         <button class="botao" disabled>em breve</button>
       </article>
-      <article class="trabalho produto" data-tipo="quadro">
+      <article class="trabalho produto" data-tipo="quadros">
         <div class="foto"><img src="img/quadro-ping-mal.jpg" alt="Ping Mal" loading="lazy"></div>
         <div class="linha"><h3>Ping Mal</h3><span class="preco">R$ —</span></div>
         <p>Técnica · medidas</p>

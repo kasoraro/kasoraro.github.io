@@ -5,24 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vinicius “Kaso” Soares</title>
   <meta name="description" content="Kaso — confecção, arte digital e produção cultural. São Paulo.">
-  <link rel="stylesheet" href="estilo.css?v=4">
-  <script src="script.js?v=4" defer></script>
+  <link rel="stylesheet" href="estilo.css?v=5">
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
 
   <nav class="topo" aria-label="Menu">
-    <ul class="abas">
+    <ul class="abas" data-menu="portfolio">
       <li><a href="#sobre" class="ativo">sobre</a></li>
       <li><a href="#destaques">destaques</a></li>
       <li><a href="#arte-digital">arte digital</a></li>
-      <li><a href="loja.html">loja</a></li>
       <li><a href="obras.html">interativas</a></li>
     </ul>
   </nav>
 
+  <!-- botão que alterna entre portfólio e loja -->
+  <a class="modo" href="loja.html" data-modo="portfolio" aria-label="Alternar entre portfólio e loja">
+    <span class="pino"></span><span>portfólio</span><span>loja</span>
+  </a>
+
   <!-- Sobre -->
   <section class="secao" id="sobre">
-    <div class="secao-titulo"><h2>Sobre</h2><span>01</span></div>
     <div class="sobre">
       <figure>
         <img src="img/retrato.jpg" alt="Retrato de Kaso">
@@ -46,7 +49,6 @@
 
   <!-- Destaques -->
   <section class="secao" id="destaques">
-    <div class="secao-titulo"><h2>Destaques</h2><span>02</span></div>
     <div class="grade" data-galeria>
       <article class="trabalho">
         <div class="foto"><img src="img/mad.jpg" alt="Modelo vestindo camiseta Mad Enlatados x Kaso" loading="lazy"></div>
@@ -93,7 +95,6 @@
 
   <!-- Arte digital -->
   <section class="secao" id="arte-digital">
-    <div class="secao-titulo"><h2>Arte digital</h2><span>Projeto Autoral (2020 — presente)</span></div>
     <div class="grade-arte" data-galeria>
       <div class="trabalho"><div class="foto"><img src="img/arte-fear.jpg" alt="fear" loading="lazy"></div></div>
       <div class="trabalho"><div class="foto"><img src="img/arte-09.jpg" alt="Arte digital" loading="lazy"></div></div>

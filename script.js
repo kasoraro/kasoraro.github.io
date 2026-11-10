@@ -40,6 +40,24 @@
     atualizar();
   }
 
+  // na loja, o menu filtra os produtos (roupas, acessórios, quadros)
+  if (abas.dataset.menu === 'loja') {
+    const produtos = document.querySelectorAll('.produto');
+    const filtrar = (animar = true) => {
+      const filtro = (location.hash || '#tudo').slice(1);
+      const link = links.find(l => l.getAttribute('href') === '#' + filtro) || links[0];
+      marcar(link, animar);
+      produtos.forEach(p => { p.style.display = (filtro === 'tudo' || p.dataset.tipo === filtro) ? '' : 'none'; });
+    };
+    links.forEach(l => l.addEventListener('click', (e) => {
+      e.preventDefault();
+      history.replaceState(null, '', l.getAttribute('href'));
+      filtrar();
+    }));
+    addEventListener('hashchange', () => filtrar());
+    filtrar(false);
+  }
+
   addEventListener('resize', () => marcar(ativo(), false));
   if (document.fonts) document.fonts.ready.then(() => marcar(ativo(), false));
 })();
@@ -96,15 +114,15 @@
   });
 })();
 
-/* ---------- 3. Filtros da loja ---------- */
+/* ---------- 3. Botão portfólio / loja ---------- */
 (() => {
-  const botoes = document.querySelectorAll('.filtros button');
-  if (!botoes.length) return;
-  const produtos = document.querySelectorAll('.produto');
-  botoes.forEach(botao => botao.addEventListener('click', () => {
-    botoes.forEach(b => b.classList.remove('ativo'));
-    botao.classList.add('ativo');
-    const f = botao.dataset.filtro;
-    produtos.forEach(p => { p.style.display = (f === 'tudo' || p.dataset.tipo === f) ? '' : 'none'; });
-  }));
+  const modo = document.querySelector('.modo');
+  if (!modo) return;
+  modo.addEventListener('click', (e) => {
+    e.preventDefault();
+    modo.classList.add('trocando');          // o pino desliza antes de trocar de página
+    setTimeout(() => { location.href = modo.href; }, 320);
+  });
+  // ao voltar pelo botão "voltar" do navegador, desfaz a animação
+  addEventListener('pageshow', () => modo.classList.remove('trocando'));
 })();

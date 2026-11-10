@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Obras interativas · kaso</title>
-  <link rel="stylesheet" href="estilo.css?v=4">
-  <script src="script.js?v=4" defer></script>
+  <link rel="stylesheet" href="estilo.css?v=5">
+  <script src="script.js?v=5" defer></script>
   <style>
     .palco {
       position: relative;
@@ -34,17 +34,20 @@
 <body>
 
   <nav class="topo" aria-label="Menu">
-    <ul class="abas">
+    <ul class="abas" data-menu="portfolio">
       <li><a href="index.html#sobre">sobre</a></li>
       <li><a href="index.html#destaques">destaques</a></li>
       <li><a href="index.html#arte-digital">arte digital</a></li>
-      <li><a href="loja.html">loja</a></li>
       <li><a href="obras.html" class="ativo">interativas</a></li>
     </ul>
   </nav>
 
+  <!-- botão que alterna entre portfólio e loja -->
+  <a class="modo" href="loja.html" data-modo="portfolio" aria-label="Alternar entre portfólio e loja">
+    <span class="pino"></span><span>portfólio</span><span>loja</span>
+  </a>
+
   <section class="secao">
-    <div class="secao-titulo"><h2>Espelho</h2><span>obra interativa nº 1</span></div>
 
     <div class="palco" id="palco">
       <canvas id="sombra"></canvas>
@@ -58,7 +61,7 @@
       <button class="botao" id="limpar">limpar</button>
       <button class="botao" id="baixar">baixar imagem</button>
     </div>
-    <p class="dica">Arraste sobre o quadro para desenhar. Tudo que você faz de um lado aparece espelhado do outro.</p>
+    <p class="dica"><b>Espelho</b> · obra interativa nº 1<br>Arraste sobre o quadro para desenhar. Tudo que você faz de um lado aparece espelhado do outro.</p>
   </section>
 
   <footer class="rodape">
