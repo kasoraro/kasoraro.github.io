@@ -236,26 +236,47 @@ body { padding-top: 70px; }
 .botao[disabled] { border-color: var(--cinza-claro); color: var(--cinza); cursor: not-allowed; }
 .botao[disabled]:hover { background: var(--branco); color: var(--cinza); }
 
+/* ----- Botões redondos de vidro (fechar, anterior, próximo) ----- */
+.botao-vidro {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, .5);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  backdrop-filter: blur(14px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, .8);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+.botao-vidro:hover { transform: scale(1.06); background: rgba(255, 255, 255, .75); }
+.botao-vidro svg { width: 16px; height: 16px; fill: none; stroke: var(--preto); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.fechar-zoom { position: fixed; z-index: 62; top: 18px; right: 18px; opacity: 0; transition: opacity .3s, transform .2s; }
+.fechar-zoom.aberto { opacity: 1; }
+
 /* ----- Visualizador (clique numa imagem) ----- */
 .visor {
   position: fixed; inset: 0; z-index: 50;
-  background: rgba(255, 255, 255, .96);
-  display: none;
+  background: rgba(255, 255, 255, .8);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  display: flex;
   align-items: center; justify-content: center;
   flex-direction: column; gap: 14px;
-  padding: 50px 60px;
+  padding: 50px 70px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
 }
-.visor.aberto { display: flex; }
-.visor img { max-height: 80vh; max-width: 100%; object-fit: contain; }
+.visor.aberto { opacity: 1; pointer-events: auto; }
+.visor img { max-height: 76vh; max-width: 100%; object-fit: contain; transform: scale(.96); transition: transform .45s cubic-bezier(.2,.8,.2,1); box-shadow: 0 20px 60px rgba(0,0,0,.18); }
+.visor.aberto img { transform: none; }
 .visor .texto { font-size: 12px; text-align: center; }
 .visor .texto b { display: block; }
-.visor button {
-  position: absolute; border: none; background: none; cursor: pointer;
-  font-family: var(--pesada); font-size: 22px; color: var(--preto); padding: 10px;
-}
-.visor .fechar { top: 12px; right: 18px; }
-.visor .anterior { left: 10px; top: 50%; }
-.visor .proximo { right: 10px; top: 50%; }
+.visor .botao-vidro { position: absolute; }
+.visor .fechar { top: 18px; right: 18px; }
+.visor .anterior { left: 18px; top: 50%; margin-top: -21px; }
+.visor .proximo { right: 18px; top: 50%; margin-top: -21px; }
 
 /* ----- Rodapé ----- */
 .rodape {

@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ateliê · kaso</title>
-  <link rel="stylesheet" href="estilo.css?v=7">
-  <link rel="stylesheet" href="atelie.css?v=7">
-  <script src="script.js?v=7" defer></script>
-  <script src="atelie.js?v=7" defer></script>
+  <link rel="stylesheet" href="estilo.css?v=8">
+  <link rel="stylesheet" href="atelie.css?v=8">
+  <script src="script.js?v=8" defer></script>
+  <script src="atelie.js?v=8" defer></script>
 </head>
 <body>
 
@@ -38,13 +38,17 @@
              data-titulo e data-info aparecem quando alguém clica na obra.
              ========================================================== -->
         <div class="obra" style="left:116px;top:109px;width:640px;height:335px"
-             data-alvo="560" data-titulo="eu" data-info="Kaso · técnica · ano">
+             data-alvo="560" data-titulo="eu" data-info="Kaso · técnica · ano"
+             data-grande="img/atelie/obra-1-grande.jpg">
           <img src="img/atelie/obra-1.jpg" alt="Obra exposta no quadro grande">
         </div>
-        <div class="obra" style="left:845px;top:105px;width:199px;height:191px"
-             data-alvo="945" data-titulo="Sem título" data-info="Acrílica sobre tela">
+        <div class="obra na-sombra" style="left:845px;top:105px;width:199px;height:191px"
+             data-alvo="945" data-titulo="Sem título" data-info="Acrílica sobre tela"
+             data-grande="img/quadro-branco.jpg">
           <img src="img/atelie/obra-2.jpg" alt="Obra exposta no quadro pequeno">
         </div>
+        <!-- marcas de tinta que o pintor deixa nas obras -->
+        <div class="rastros" id="rastros"></div>
 
         <img class="camada" src="img/atelie/moldura-1.png" alt="" style="left:99px;top:94px">
         <img class="camada" src="img/atelie/moldura-2.png" alt="" style="left:839px;top:95px">
@@ -52,10 +56,18 @@
 
         <div class="pegadas" id="pegadas"></div>
         <img class="camada sombra" id="sombra" src="img/atelie/sombra.png" alt="">
-        <img class="pintor" id="pintor" src="img/atelie/pintor.png" alt="O pintor">
+        <!-- o pintor, montado em partes pra poder andar -->
+        <div class="boneco" id="boneco" aria-label="O pintor">
+          <img class="perna" id="perna-a" src="img/atelie/p-pernas.png" alt="">
+          <img class="perna" id="perna-b" src="img/atelie/p-pernas.png" alt="">
+          <img class="braco-e" id="braco-e" src="img/atelie/p-braco-e.png" alt="">
+          <img class="tronco" id="tronco" src="img/atelie/p-tronco.png" alt="">
+          <img class="braco-d" id="braco-d" src="img/atelie/p-braco-d.png" alt="">
+        </div>
         <img class="camada luz" id="luz" src="img/atelie/luz.png" alt="" style="left:93px;top:225px">
       </div>
       <div class="fala" id="fala"></div>
+      <div class="cursor" id="cursor"><span></span></div>
     </div>
     <p class="legenda-atelie"><b>Ateliê</b> · rascunho — clique no chão pra ele andar até lá, clique nas obras pra ver de perto, e tente chegar perto dele.</p>
   </section>

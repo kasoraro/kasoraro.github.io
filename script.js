@@ -81,11 +81,11 @@
   visor.className = 'visor';
   visor.setAttribute('role', 'dialog');
   visor.innerHTML = `
-    <button class="fechar" aria-label="Fechar">×</button>
-    <button class="anterior" aria-label="Anterior">‹</button>
+    <button class="botao-vidro fechar" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="botao-vidro anterior" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
     <img alt="">
     <div class="texto"></div>
-    <button class="proximo" aria-label="Próximo">›</button>`;
+    <button class="botao-vidro proximo" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`;
   document.body.appendChild(visor);
   const img = visor.querySelector('img');
   const texto = visor.querySelector('.texto');
