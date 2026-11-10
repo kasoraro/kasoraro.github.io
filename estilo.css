@@ -32,87 +32,58 @@ body {
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
-/* ----- Barra de abas (igual ao topo do portfólio) ----- */
+/* ----- Menu de vidro flutuante ----- */
+body { padding-top: 70px; }
 .topo {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 20;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  margin: 0 12px;
-  background: var(--cinza-claro);
-  border-radius: 0 0 14px 14px;
-  font-size: 12px;
+  max-width: calc(100% - 24px);
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .42);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, .08), inset 0 1px 0 rgba(255, 255, 255, .8);
 }
-.topo .nome { padding: 6px 16px; color: #555; white-space: nowrap; }
-.topo .nome b { color: var(--preto); }
-.abas { display: flex; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.abas {
+  position: relative;
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 .abas::-webkit-scrollbar { display: none; }
 .abas a {
-  display: block;
-  padding: 6px 16px;
-  color: #444;
-  white-space: nowrap;
-  border-radius: 0 0 12px 12px;
-  transition: background .2s, color .2s;
-}
-.abas a:hover { color: var(--preto); background: #d6d6d6; }
-.abas a.ativo { background: var(--cinza); color: var(--branco); }
-
-/* ----- Títulos no estilo "f e a r" ----- */
-.espacado {
-  font-family: var(--pesada);
-  text-transform: lowercase;
-  letter-spacing: .9em;
-  line-height: 1;
-}
-.acido {
-  color: var(--acido);
-  text-shadow: 0 0 1px #7d8a00, 6px 10px 14px rgba(40, 40, 60, .55);
-}
-
-/* ----- Abertura com a obra "fear" ----- */
-.capa {
   position: relative;
-  min-height: calc(100vh - 30px);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  perspective: 900px;
-}
-.capa .obra {
-  width: min(78vh, 88vw);
-  aspect-ratio: 1;
-  transform-style: preserve-3d;
-  transition: transform .25s ease-out, filter .25s ease-out;
-  will-change: transform;
-}
-.capa .obra img { width: 100%; height: 100%; object-fit: cover; }
-.capa h1 {
-  position: absolute;
-  left: 50%;
-  top: 72%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(3rem, 11vw, 9rem);
+  z-index: 1;
+  display: block;
+  padding: 7px 16px;
+  font-size: 13px;
+  color: #333;
   white-space: nowrap;
-  pointer-events: none;
-  padding-left: .9em;             /* compensa o espaçamento da última letra */
-  transition: letter-spacing .3s ease-out;
+  border-radius: 999px;
+  transition: color .3s;
 }
-.capa .legenda {
+.abas a:hover { color: var(--preto); }
+.abas a.ativo { background: var(--preto); color: var(--branco); }
+/* com JavaScript, a marcação vira uma pílula que desliza entre as abas */
+.abas.com-marcador a.ativo { background: none; }
+.marcador {
   position: absolute;
-  bottom: 18px;
-  left: 24px;
-  right: 24px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--cinza);
+  top: 0; bottom: 0; left: 0;
+  width: 0;
+  border-radius: 999px;
+  background: var(--preto);
+  transition: left .4s cubic-bezier(.2, .8, .2, 1), width .4s cubic-bezier(.2, .8, .2, 1);
+  z-index: 0;
 }
 
 /* ----- Seções ----- */
-.secao { padding: 90px 24px 40px; max-width: 1400px; margin: 0 auto; }
+.secao { padding: 60px 24px 40px; max-width: 1400px; margin: 0 auto; scroll-margin-top: 20px; }
 .secao-titulo {
   display: flex;
   align-items: baseline;
@@ -122,7 +93,7 @@ img { display: block; max-width: 100%; }
   padding-bottom: 8px;
   margin-bottom: 28px;
 }
-.secao-titulo h2 { font-family: var(--pesada); font-size: 15px; letter-spacing: .5em; text-transform: lowercase; }
+.secao-titulo h2 { font-size: 15px; font-weight: 600; }
 .secao-titulo span { font-size: 11px; color: var(--cinza); }
 
 /* ----- Sobre ----- */
@@ -228,12 +199,10 @@ img { display: block; max-width: 100%; }
 
 /* ----- Celular ----- */
 @media (max-width: 700px) {
-  .topo { margin: 0; border-radius: 0 0 12px 12px; }
-  .topo .nome { display: none; }
+  .abas a { padding: 6px 8px; font-size: 11.5px; }
   .sobre { grid-template-columns: 1fr; }
-  .capa h1 { letter-spacing: .6em; padding-left: .6em; }
-  .secao { padding-top: 60px; }
+  .secao { padding-top: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .capa .obra, .capa h1 { transition: none; }
+  .marcador { transition: none; }
 }

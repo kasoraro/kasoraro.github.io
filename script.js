@@ -1,41 +1,47 @@
 /* =========================================================
    kaso · script.js
-   1. Capa interativa (a obra reage ao mouse)
+   1. Menu com a aba atual marcada
    2. Visualizador de imagens (clique em qualquer trabalho)
    3. Filtros da loja
    ========================================================= */
 
-/* ---------- 1. Capa interativa ---------- */
+/* ---------- 1. Menu: pílula que marca a aba atual ---------- */
 (() => {
-  const capa = document.querySelector('.capa');
-  if (!capa) return;
-  const obra = capa.querySelector('.obra');
-  const titulo = capa.querySelector('h1');
-  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (calmo) return;
+  const abas = document.querySelector('.abas');
+  if (!abas) return;
+  const links = [...abas.querySelectorAll('a')];
+  const marcador = document.createElement('span');
+  marcador.className = 'marcador';
+  abas.appendChild(marcador);
+  abas.classList.add('com-marcador');
 
-  capa.addEventListener('pointermove', (e) => {
-    const r = capa.getBoundingClientRect();
-    const nx = ((e.clientX - r.left) / r.width) * 2 - 1;   // -1 a 1
-    const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
-    const d = Math.hypot(nx, ny);
-    obra.style.transform = `rotateY(${nx * 12}deg) rotateX(${-ny * 12}deg) scale(${1 + d * .03})`;
-    // "fantasmas" magenta e azul separando, como erro de impressão
-    obra.style.filter =
-      `drop-shadow(${nx * 14}px ${ny * 6}px 0 rgba(255,42,157,.55)) ` +
-      `drop-shadow(${-nx * 14}px ${-ny * 6}px 0 rgba(43,60,255,.5)) ` +
-      `drop-shadow(${nx * 30}px ${30 + ny * 20}px 30px rgba(30,30,50,.35))`;
-    const largura = innerWidth < 700 ? .6 : .9;
-    titulo.style.letterSpacing = `${largura + Math.abs(nx) * .35}em`;
-    titulo.style.transform = `translate(calc(-50% + ${-nx * 18}px), calc(-50% + ${-ny * 18}px))`;
-  });
+  function marcar(link, animar = true) {
+    if (!link) return;
+    links.forEach(l => l.classList.toggle('ativo', l === link));
+    marcador.style.transition = animar ? '' : 'none';
+    marcador.style.left = link.offsetLeft + 'px';
+    marcador.style.width = link.offsetWidth + 'px';
+  }
+  const ativo = () => links.find(l => l.classList.contains('ativo'));
+  marcar(ativo(), false);
 
-  capa.addEventListener('pointerleave', () => {
-    obra.style.transform = '';
-    obra.style.filter = '';
-    titulo.style.letterSpacing = '';
-    titulo.style.transform = '';
-  });
+  // na página inicial, a marcação acompanha a seção visível
+  const internos = links.filter(l => l.getAttribute('href').startsWith('#'));
+  const secoes = internos.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  if (secoes.length) {
+    const atualizar = () => {
+      let atual = secoes[0];
+      secoes.forEach(s => { if (s.getBoundingClientRect().top < innerHeight * .35) atual = s; });
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) atual = secoes[secoes.length - 1];
+      const link = internos.find(l => l.getAttribute('href') === '#' + atual.id);
+      if (link !== ativo()) marcar(link);
+    };
+    addEventListener('scroll', atualizar, { passive: true });
+    atualizar();
+  }
+
+  addEventListener('resize', () => marcar(ativo(), false));
+  if (document.fonts) document.fonts.ready.then(() => marcar(ativo(), false));
 })();
 
 /* ---------- 2. Visualizador ---------- */
