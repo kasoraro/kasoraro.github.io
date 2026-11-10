@@ -1,0 +1,128 @@
+/* ===== Estilo geral do site ===== */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Inter:wght@400;500&display=swap');
+
+:root {
+  --papel: #f4efe6;
+  --tinta: #1d1b18;
+  --suave: #6f675c;
+  --destaque: #c4472d;
+  --linha: #d9d0c1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+/* ----- Cabeçalho ----- */
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 6vw;
+  border-bottom: 1px solid var(--linha);
+}
+.marca {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.menu { display: flex; gap: 2rem; list-style: none; }
+.menu a {
+  text-decoration: none;
+  font-size: .95rem;
+  color: var(--suave);
+}
+.menu a:hover, .menu a.ativo { color: var(--tinta); border-bottom: 2px solid var(--destaque); }
+
+/* ----- Abertura ----- */
+.abertura { padding: 8vh 6vw 6vh; max-width: 1100px; }
+.abertura h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 1.05;
+}
+.abertura h1 em { color: var(--destaque); }
+.abertura p { margin-top: 1.5rem; max-width: 38rem; color: var(--suave); font-size: 1.1rem; }
+
+/* ----- Títulos de seção ----- */
+.secao { padding: 4vh 6vw 8vh; }
+.secao h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* ----- Grade de obras / produtos ----- */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2.5rem 2rem;
+}
+.peca .imagem {
+  aspect-ratio: 4 / 5;
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  transition: transform .4s ease;
+}
+.peca:hover .imagem { transform: scale(1.02); }
+.peca h3 { font-family: 'Fraunces', serif; font-weight: 600; margin-top: .8rem; font-size: 1.1rem; }
+.peca .info { color: var(--suave); font-size: .9rem; }
+.peca .preco { margin-top: .3rem; font-weight: 500; }
+
+/* "Pinturas" provisórias até você trocar pelas fotos reais */
+.tela1 { background: radial-gradient(circle at 30% 40%, #e8a33d, transparent 55%), linear-gradient(160deg, #2e4a62, #c4472d); }
+.tela2 { background: radial-gradient(circle at 70% 30%, #f1d9a7, transparent 50%), linear-gradient(200deg, #3d5a40, #1d1b18); }
+.tela3 { background: radial-gradient(circle at 50% 70%, #c4472d, transparent 45%), linear-gradient(120deg, #f1d9a7, #6b8fa3); }
+.tela4 { background: radial-gradient(circle at 40% 30%, #6b8fa3, transparent 50%), linear-gradient(180deg, #e8a33d, #5a2e2e); }
+.roupa1 { background: linear-gradient(135deg, #d9d0c1, #b8a990); }
+.roupa2 { background: linear-gradient(135deg, #2e4a62, #1d1b18); }
+
+/* ----- Botões ----- */
+.botao {
+  display: inline-block;
+  margin-top: .8rem;
+  padding: .55rem 1.2rem;
+  border: 1px solid var(--tinta);
+  background: transparent;
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.botao:hover { background: var(--tinta); color: var(--papel); }
+.botao[disabled] { opacity: .45; cursor: not-allowed; }
+.botao[disabled]:hover { background: transparent; color: var(--tinta); }
+
+/* ----- Filtros da loja ----- */
+.filtros { display: flex; gap: 1rem; margin-bottom: 2rem; }
+.filtros button { border-color: var(--linha); color: var(--suave); }
+.filtros button.ativo { border-color: var(--tinta); color: var(--tinta); }
+
+/* ----- Rodapé ----- */
+.rodape {
+  padding: 3rem 6vw;
+  border-top: 1px solid var(--linha);
+  color: var(--suave);
+  font-size: .9rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ----- Celular ----- */
+@media (max-width: 640px) {
+  .topo { flex-direction: column; gap: 1rem; }
+  .menu { gap: 1.2rem; }
+}
