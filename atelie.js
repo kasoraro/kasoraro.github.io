@@ -40,20 +40,20 @@
   // clara: ocupa a largura da página, sem a parte preta de cima
   let k = 1, ox = 0, oy = 0;
   const H = 566, TOPO_CLARO = 85;
+  const TAMANHO = 0.65;                                  // 65% do tamanho anterior
   function escalar() {
     const vw = cena.clientWidth;
     if (claro) {
-      k = vw / W; ox = 0; oy = -TOPO_CLARO * k;
+      k = vw / W * TAMANHO; ox = (vw - W * k) / 2; oy = -TOPO_CLARO * k;
       cena.style.height = ((H - TOPO_CLARO) * k) + 'px';
     } else if (innerWidth / innerHeight < 1.2) {        // celular em pé
-      k = vw / W; ox = 0; oy = 60;
-      cena.style.height = (H * k + 60) + 'px';
+      k = vw / W; ox = 0; oy = 50;
+      cena.style.height = (H * k + 80) + 'px';
     } else {
-      cena.style.height = '';
-      const vh = cena.clientHeight;
-      k = Math.max(vw / W, vh / H);
+      k = Math.max(vw / W, innerHeight / H) * TAMANHO;
       ox = (vw - W * k) / 2;
-      oy = vh - H * k;                                  // chão sempre embaixo
+      oy = 30;
+      cena.style.height = (H * k + 50) + 'px';         // faixa preta da altura da cena
     }
     palco.style.transform = `translate(${ox}px, ${oy}px) scale(${k})`;
   }
@@ -216,7 +216,7 @@
       if (p.modo !== 'sumido' && t > p.ate) proximaIdeia();
     }
 
-    if (!calmo) luz.style.opacity = Math.random() < .03 ? (.75 + Math.random() * .2) : 1;
+    if (!calmo) luz.style.opacity = Math.random() < .02 ? (.8 + Math.random() * .15) : 1;
     desenhar(t);
     requestAnimationFrame(quadro);
   }
@@ -351,6 +351,22 @@
   }
   [fundoZoom, imgZoom, fecharZoom].forEach(el => el.addEventListener('click', fecharObra));
   addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharObra(); });
+
+  // grãos de poeira no facho de luz
+  const poeira = $('poeira');
+  if (poeira && !calmo) for (let i = 0; i < 26; i++) {
+    const g = document.createElement('i');
+    g.style.left = (Math.random() * 100) + '%';
+    g.style.top = (Math.random() * 100) + '%';
+    const t = 1 + Math.random() * 1.6;
+    g.style.width = g.style.height = t + 'px';
+    g.style.setProperty('--d', (7 + Math.random() * 9) + 's');
+    g.style.setProperty('--a', (-Math.random() * 12) + 's');
+    g.style.setProperty('--x', ((Math.random() - .3) * 60) + 'px');
+    g.style.setProperty('--y', ((Math.random() - .6) * 50) + 'px');
+    g.style.setProperty('--o', (.3 + Math.random() * .6).toFixed(2));
+    poeira.appendChild(g);
+  }
 
   desenhar(performance.now());
   requestAnimationFrame(quadro);
